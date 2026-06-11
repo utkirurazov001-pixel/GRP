@@ -1,0 +1,21 @@
+# Render.com Blueprint — gerpi-monitoring'ni bir bosishda deploy qilish.
+# Render dashboard: New + -> Blueprint -> shu reponi tanlang.
+# Eslatma: free plan diski efemer — har restartda SQLite qayta yaratiladi,
+# shuning uchun startda migrate + seed qayta ishga tushadi (demo uchun yetarli).
+# Doimiy ma'lumot kerak bo'lsa PostgreSQL yarating va DATABASE_URL ni o'rnating.
+services:
+  - type: web
+    name: gerpi-monitoring
+    runtime: node
+    plan: free
+    rootDir: gerpi-monitoring
+    buildCommand: npm --prefix backend install
+    startCommand: npm --prefix backend run migrate && npm --prefix backend run seed && npm --prefix backend start
+    healthCheckPath: /health
+    envVars:
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: DEMO_MODE
+        value: "true"
