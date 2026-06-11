@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boshqaruv paneli — GERPI Monitoring</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <div class="layout">
+    <div class="main">
+      <div class="content">
+        <div class="page-title">Boshqaruv paneli</div>
+        <div class="page-sub" id="page-sub">Portfel bo'yicha umumiy ko'rsatkichlar — jonli ma'lumotlar</div>
+
+        <div class="kpi-grid" id="kpi-grid">
+          <div class="card kpi-card"><div class="skeleton" style="width:100%;height:56px"></div></div>
+          <div class="card kpi-card"><div class="skeleton" style="width:100%;height:56px"></div></div>
+          <div class="card kpi-card"><div class="skeleton" style="width:100%;height:56px"></div></div>
+          <div class="card kpi-card"><div class="skeleton" style="width:100%;height:56px"></div></div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="card chart-box">
+            <h3>O'zlashtirish dinamikasi (reja va fakt, %)</h3>
+            <div class="chart-wrap"><canvas id="chart-trend"></canvas></div>
+          </div>
+          <div class="card chart-box">
+            <h3>Donorlar kesimida portfel</h3>
+            <div class="chart-wrap"><canvas id="chart-donors"></canvas></div>
+          </div>
+        </div>
+
+        <div class="chart-grid-2">
+          <div class="card chart-box">
+            <h3>Vazirliklar kesimida byudjet</h3>
+            <div class="chart-wrap"><canvas id="chart-ministries"></canvas></div>
+          </div>
+          <div class="card chart-box">
+            <h3>GERPI holatlari</h3>
+            <div class="chart-wrap"><canvas id="chart-status"></canvas></div>
+          </div>
+        </div>
+
+        <div class="chart-grid-2">
+          <div class="card chart-box">
+            <h3>Eng yaxshi 5 GERPI (reja-fakt farqi)</h3>
+            <ul class="rank-list" id="top5"></ul>
+          </div>
+          <div class="card chart-box">
+            <h3>Eng muammoli 5 GERPI (reja-fakt farqi)</h3>
+            <ul class="rank-list" id="bottom5"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/assets/vendor/chart.umd.min.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/assets/dashboard.js"></script>
+</body>
+</html>

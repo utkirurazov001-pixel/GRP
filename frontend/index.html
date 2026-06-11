@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kirish — GERPI Monitoring</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-hero">
+      <div class="brand-mark">GM</div>
+      <h1>GERPI Monitoring —<br>loyihalarni amalga oshirish guruhlari milliy nazorat platformasi</h1>
+      <p>O'zbekiston Respublikasidagi barcha xalqaro donor loyihalarini amalga oshiruvchi
+        GERPI tashkilotlari faoliyatini yagona platformada real vaqtda kuzating.</p>
+      <ul>
+        <li><span class="dot"></span>$3.2 mlrd portfel — 14 GERPI, 8 donor tashkilot</li>
+        <li><span class="dot"></span>Byudjet o'zlashtirish va muddatlar nazorati</li>
+        <li><span class="dot"></span>Avtomatik risk tahlili va ogohlantirishlar</li>
+        <li><span class="dot"></span>Choraklik hisobotlar va tasdiqlash jarayoni</li>
+      </ul>
+    </div>
+    <div class="login-form-col">
+      <div class="card login-card">
+        <div class="lang-row">
+          <select id="lang" aria-label="Til">
+            <option value="uz_latn" selected>O'zbek (lotin)</option>
+            <option value="uz_cyrl">Ўзбек (кирилл)</option>
+            <option value="ru">Русский</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        <h2>Tizimga kirish</h2>
+        <div class="sub">Hisob ma'lumotlaringizni kiriting</div>
+        <form id="login-form">
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" autocomplete="username" required placeholder="email@misol.uz">
+          </div>
+          <div class="form-field">
+            <label for="password">Parol</label>
+            <input type="password" id="password" autocomplete="current-password" required placeholder="••••••••">
+          </div>
+          <div class="form-error" id="login-error"></div>
+          <button type="submit" class="btn btn-primary" id="login-btn">Kirish</button>
+        </form>
+        <div class="demo-creds">
+          <div><b>Demo hisoblar:</b></div>
+          <div>Nazoratchi: <code>nazoratchi@imv.uz</code> / <code>Mof2026!</code></div>
+          <div>Admin: <code>admin@gerpi.uz</code> / <code>Admin2026!</code></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/assets/app.js"></script>
+  <script src="/assets/login.js"></script>
+</body>
+</html>

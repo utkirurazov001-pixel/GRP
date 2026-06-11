@@ -1,0 +1,16 @@
+{
+  "name": "gerpi-monitoring",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GERPI Monitoring — national platform for centralized oversight of Project Implementation Units (PIU) in Uzbekistan",
+  "scripts": {
+    "setup": "npm install --prefix backend && npm run env:init --prefix backend && npm run migrate --prefix backend && npm run seed --prefix backend",
+    "dev": "npm run dev --prefix backend",
+    "start": "npm run start --prefix backend",
+    "migrate": "npm run migrate --prefix backend",
+    "seed": "npm run seed --prefix backend"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
