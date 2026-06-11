@@ -1,9 +1,12 @@
 import "dotenv/config";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const usePg = !!process.env.DATABASE_URL;
+
+if (!usePg) fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
 
 /** PostgreSQL (production) yoki SQLite (lokal demo) — DATABASE_URL ga qarab. */
 const config = usePg
