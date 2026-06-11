@@ -3,108 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>ҚТР-2 ЛАОГ — Субкомпонентлар мониторинг платформаси</title>
+<title>ҚТР-2 — Лойиҳа мониторинг платформаси · ЛАОГ</title>
 <style>
 :root{
-  --wb-navy:#002244; --wb-blue:#0071bc; --wb-cyan:#009fda; --wb-orange:#f05023;
-  --ok:#1e8e3e; --warn:#e8a000; --bad:#c5221f;
-  --bg:#f4f6f9; --card:#ffffff; --line:#dde3ea; --txt:#1c2733; --mut:#5f6b7a;
-  --r:10px; --sh:0 1px 3px rgba(16,34,56,.08),0 4px 14px rgba(16,34,56,.05);
+  --navy:#00203f; --navy2:#003a6b; --blue:#0071bc; --cyan:#009fda; --gold:#c9a227;
+  --orange:#f05023; --ok:#1e8e3e; --warn:#dd8c00; --bad:#c5221f;
+  --bg:#f3f5f8; --card:#ffffff; --line:#e2e8ef; --txt:#1b2430; --mut:#64748b;
+  --r:14px; --sh:0 1px 2px rgba(2,32,71,.06),0 8px 24px rgba(2,32,71,.07);
+  --sh2:0 2px 6px rgba(2,32,71,.10),0 14px 34px rgba(2,32,71,.12);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{font-family:"Segoe UI","Noto Sans",system-ui,Arial,sans-serif;background:var(--bg);color:var(--txt);font-size:15px;line-height:1.45}
-a{color:var(--wb-blue)}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:"Segoe UI","Noto Sans",system-ui,Arial,sans-serif;background:var(--bg);color:var(--txt);font-size:15px;line-height:1.5}
 
-/* ---------- layout ---------- */
-.topbar{position:sticky;top:0;z-index:50;background:var(--wb-navy);color:#fff;display:flex;align-items:center;gap:12px;padding:10px 16px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
-.burger{display:none;background:none;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:6px 10px;font-size:18px;cursor:pointer}
-.brand{display:flex;align-items:center;gap:10px;min-width:0}
-.brand .logo{width:38px;height:38px;border-radius:8px;background:linear-gradient(135deg,var(--wb-blue),var(--wb-cyan));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:0 0 auto}
-.brand h1{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.brand small{display:block;font-size:11px;font-weight:400;color:#bcd2e8}
-.top-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
-.chip-demo{background:var(--wb-orange);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;letter-spacing:.4px}
-.btn{border:0;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;background:var(--wb-blue);color:#fff}
-.btn.ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3)}
-.btn.sec{background:#e8eef5;color:var(--wb-navy)}
-.btn.warn{background:var(--wb-orange)}
-.wrap{display:flex;min-height:calc(100vh - 58px)}
-nav{width:228px;flex:0 0 auto;background:#fff;border-right:1px solid var(--line);padding:14px 10px}
-nav .nv{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:10px 12px;font-size:14px;color:var(--txt);cursor:pointer;font-weight:500}
-nav .nv .ic{width:22px;text-align:center}
-nav .nv.on{background:var(--wb-navy);color:#fff}
-nav .nv:hover:not(.on){background:#eef3f8}
-nav .sep{margin:10px 8px;border-top:1px solid var(--line)}
-main{flex:1;min-width:0;padding:18px 20px 60px}
-.page{display:none}.page.on{display:block}
-.ph{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-.ph h2{font-size:20px;color:var(--wb-navy)}
-.ph .sub{color:var(--mut);font-size:13px}
+/* ===== юқори панель ===== */
+.topbar{position:sticky;top:0;z-index:50;background:linear-gradient(120deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;display:flex;align-items:center;gap:14px;padding:12px 20px;box-shadow:0 2px 14px rgba(0,18,40,.35)}
+.burger{display:none;background:none;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:9px;padding:6px 11px;font-size:18px;cursor:pointer}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .logo{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12.5px;letter-spacing:.5px;flex:0 0 auto;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+.brand h1{font-size:15.5px;font-weight:700;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:block;font-size:11.5px;font-weight:400;color:#a9c4dd;letter-spacing:.3px}
+.top-actions{margin-left:auto;display:flex;gap:9px;align-items:center}
+.chip-demo{background:var(--gold);color:#3a2c00;font-size:11px;font-weight:800;padding:4px 11px;border-radius:99px;letter-spacing:.6px}
+.btn{border:0;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;background:var(--blue);color:#fff;letter-spacing:.2px;transition:filter .15s}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.32)}
+.btn.sec{background:#e9eff6;color:var(--navy)}
+.btn.warn{background:var(--orange)}
 
-/* ---------- cards / kpi ---------- */
-.grid{display:grid;gap:14px}
-.kpis{grid-template-columns:repeat(auto-fit,minmax(165px,1fr))}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px}
-.kpi .lab{font-size:12px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
-.kpi .val{font-size:26px;font-weight:800;color:var(--wb-navy);margin-top:4px}
-.kpi .det{font-size:12px;color:var(--mut);margin-top:2px}
-.kpi.b{border-top:3px solid var(--wb-blue)} .kpi.o{border-top:3px solid var(--wb-orange)}
-.kpi.g{border-top:3px solid var(--ok)} .kpi.c{border-top:3px solid var(--wb-cyan)}
-.two{grid-template-columns:1fr 1fr}
-.card h3{font-size:15px;color:var(--wb-navy);margin-bottom:10px}
-.card h3 small{color:var(--mut);font-weight:400}
+/* ===== тузилма ===== */
+.wrap{display:flex;min-height:calc(100vh - 66px)}
+nav{width:248px;flex:0 0 auto;background:#fff;border-right:1px solid var(--line);padding:16px 12px 30px}
+nav .grp{font-size:10.5px;font-weight:800;color:#93a3b5;letter-spacing:1.2px;margin:16px 10px 6px}
+nav .grp:first-child{margin-top:2px}
+nav .nv{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:9px;padding:9px 12px;font-size:13.8px;color:var(--txt);cursor:pointer;font-weight:600;transition:background .12s}
+nav .nv .ic{width:24px;text-align:center;font-size:15px}
+nav .nv.on{background:var(--navy);color:#fff;box-shadow:var(--sh)}
+nav .nv:hover:not(.on){background:#eef3f9}
+nav .nv .cnt{margin-left:auto}
+main{flex:1;min-width:0;padding:22px 26px 70px;max-width:1280px}
+.page{display:none}.page.on{display:block;animation:fade .25s}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* ---------- tables ---------- */
-.tw{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
-th{background:#eef3f8;color:var(--wb-navy);text-align:left;padding:8px 10px;font-size:12px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}
-td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
-tr:hover td{background:#f7fafd}
-.num{text-align:right;white-space:nowrap}
+/* ===== саҳифа сарлавҳаси ===== */
+.ph h2{font-size:22px;color:var(--navy);letter-spacing:.2px}
+.ph .crumb{font-size:12px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.intro{background:linear-gradient(100deg,#eaf3fb,#f2f8fd);border:1px solid #d3e5f4;border-left:4px solid var(--blue);border-radius:10px;padding:11px 15px;font-size:13.8px;color:#14416b;margin:12px 0 18px}
 
-/* ---------- bits ---------- */
-.bar{height:8px;background:#e6ebf1;border-radius:99px;overflow:hidden;min-width:70px}
-.bar i{display:block;height:100%;background:var(--wb-blue);border-radius:99px}
-.bar i.g{background:var(--ok)} .bar i.w{background:var(--warn)} .bar i.r{background:var(--bad)}
-.tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:700;white-space:nowrap}
-.t-ok{background:#e2f3e6;color:var(--ok)} .t-warn{background:#fdf3dc;color:#8a6100}
-.t-bad{background:#fbe4e3;color:var(--bad)} .t-blue{background:#e1eefb;color:var(--wb-blue)}
-.t-gray{background:#eceff3;color:var(--mut)} .t-navy{background:var(--wb-navy);color:#fff}
+/* ===== карталар / KPI ===== */
+.grid{display:grid;gap:16px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:17px 19px;transition:box-shadow .18s}
+.card:hover{box-shadow:var(--sh2)}
+.kpi .lab{font-size:11.5px;color:var(--mut);font-weight:800;text-transform:uppercase;letter-spacing:.7px}
+.kpi .val{font-size:27px;font-weight:800;color:var(--navy);margin-top:5px;letter-spacing:-.3px}
+.kpi .val small{font-size:14px;color:var(--mut);font-weight:600}
+.kpi .det{font-size:12.5px;color:var(--mut);margin-top:3px}
+.kpi{position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--blue);border-radius:4px 0 0 4px}
+.kpi.g::before{background:var(--ok)} .kpi.o::before{background:var(--orange)}
+.kpi.c::before{background:var(--cyan)} .kpi.y::before{background:var(--gold)}
+.two{grid-template-columns:1.1fr .9fr}
+.card h3{font-size:15.5px;color:var(--navy);margin-bottom:12px;letter-spacing:.2px}
+.card h3 small{color:var(--mut);font-weight:500}
+.mt{margin-top:16px}
+
+/* ===== жадваллар ===== */
+.tw{overflow-x:auto;border-radius:10px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:580px}
+th{background:#edf2f8;color:var(--navy);text-align:left;padding:9px 11px;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;border-bottom:2px solid #dbe4ee}
+td{padding:9px 11px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:hover td,tr:hover td{background:#f6fafd}
+.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+/* ===== белгилар ===== */
+.bar{height:8px;background:#e6ebf2;border-radius:99px;overflow:hidden;min-width:72px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:99px}
+.bar i.g{background:linear-gradient(90deg,#1e8e3e,#4caf50)} .bar i.w{background:linear-gradient(90deg,#dd8c00,#f0b429)} .bar i.r{background:var(--bad)}
+.tag{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:800;white-space:nowrap;letter-spacing:.2px}
+.t-ok{background:#e2f3e6;color:#156d2f} .t-warn{background:#fdf1da;color:#8a5a00}
+.t-bad{background:#fbe4e3;color:var(--bad)} .t-blue{background:#e1eefb;color:var(--blue)}
+.t-gray{background:#edf0f4;color:var(--mut)} .t-navy{background:var(--navy);color:#fff} .t-gold{background:#f7eecd;color:#6e5a10}
 .mini{font-size:12px;color:var(--mut)}
-.leg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:8px}
-.leg b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
-.alert-it{display:flex;gap:10px;padding:10px 4px;border-top:1px solid var(--line);align-items:flex-start}
+.leg{display:flex;gap:15px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:10px}
+.leg b{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.alert-it{display:flex;gap:11px;padding:11px 4px;border-top:1px solid var(--line);align-items:flex-start}
 .alert-it:first-child{border-top:0}
 .alert-it .dot{width:10px;height:10px;border-radius:99px;margin-top:5px;flex:0 0 auto}
-.d-bad{background:var(--bad)} .d-warn{background:var(--warn)} .d-ok{background:var(--wb-blue)}
-.pl{display:flex;gap:6px;flex-wrap:wrap}
-.step{font-size:11px;padding:3px 8px;border-radius:6px;background:#eceff3;color:var(--mut);font-weight:600}
-.step.done{background:var(--wb-navy);color:#fff}
-.step.cur{background:var(--wb-orange);color:#fff}
-.form{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-.form label{font-size:12px;font-weight:700;color:var(--wb-navy);display:block;margin-bottom:4px}
-.form input,.form select,.form textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:#fff;font-family:inherit}
-.form .full{grid-column:1/-1}
-.note{background:#eef6fc;border:1px solid #cfe6f5;border-radius:8px;padding:10px 12px;font-size:13px;color:#15486b;margin-bottom:12px}
-.mt{margin-top:14px}
+.d-bad{background:var(--bad);box-shadow:0 0 0 3px #fbe4e3} .d-warn{background:var(--warn);box-shadow:0 0 0 3px #fdf1da} .d-ok{background:var(--blue);box-shadow:0 0 0 3px #e1eefb}
+.pl{display:flex;gap:5px;flex-wrap:wrap}
+.step{font-size:10.5px;padding:3px 9px;border-radius:7px;background:#edf0f4;color:var(--mut);font-weight:700;letter-spacing:.2px}
+.step.done{background:var(--navy);color:#fff}
+.step.cur{background:var(--orange);color:#fff}
 .flexh{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
-/* ---------- responsive ---------- */
-@media(max-width:880px){
+/* ===== субкомпонент карталари ===== */
+.sc-card{display:flex;flex-direction:column;gap:0}
+.sc-head{display:flex;align-items:flex-start;gap:13px}
+.sc-num{flex:0 0 auto;width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.sc-num.k2{background:linear-gradient(135deg,#5a4500,var(--gold))}
+.sc-head h3{margin:0;line-height:1.3}
+.sc-bud{font-size:12.5px;color:var(--mut);font-weight:700;margin-top:2px}
+.sc-goal{font-size:13.5px;color:#33414f;margin:11px 0 12px;border-left:3px solid var(--line);padding-left:11px}
+.sc-meta{font-size:12.5px;color:var(--mut);display:grid;gap:5px;margin-bottom:12px}
+.sc-meta b{color:var(--txt);font-weight:700}
+.sc-foot{margin-top:auto;display:flex;align-items:center;gap:12px}
+
+/* ===== формалар ===== */
+.form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.form label{font-size:12px;font-weight:800;color:var(--navy);display:block;margin-bottom:5px;letter-spacing:.3px}
+.form input,.form select,.form textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:14px;background:#fff;font-family:inherit}
+.form input:focus,.form select:focus{outline:2px solid #bcd9f2;border-color:var(--blue)}
+.form .full{grid-column:1/-1}
+
+/* ===== мослашув ===== */
+@media(max-width:920px){
   .burger{display:block}
-  nav{position:fixed;left:0;top:58px;bottom:0;z-index:60;transform:translateX(-105%);transition:transform .22s;box-shadow:4px 0 18px rgba(0,0,0,.18);overflow-y:auto}
+  nav{position:fixed;left:0;top:66px;bottom:0;z-index:60;transform:translateX(-105%);transition:transform .22s;box-shadow:6px 0 22px rgba(0,0,0,.2);overflow-y:auto}
   nav.open{transform:none}
-  main{padding:14px 12px 70px}
+  main{padding:15px 13px 80px}
   .two{grid-template-columns:1fr}
-  .brand h1{font-size:13px;white-space:normal;line-height:1.2}
+  .brand h1{font-size:13px;white-space:normal;line-height:1.25}
   body{font-size:14px}
   .kpi .val{font-size:22px}
+  .ph h2{font-size:19px}
 }
 @media print{
   .topbar,nav,.no-print{display:none!important}
   body{background:#fff}
-  main{padding:0}
+  main{padding:0;max-width:none}
   .card{box-shadow:none;break-inside:avoid}
   .page{display:none}.page.on{display:block}
 }
@@ -116,8 +143,8 @@ tr:hover td{background:#f7fafd}
   <button class="burger" id="burger" aria-label="Меню">☰</button>
   <div class="brand">
     <div class="logo">ҚТР‑2</div>
-    <h1>«Қишлоқ тадбиркорлигини ривожлантириш — 2 фаза» ЛАОГ
-      <small>UZ‑7061 · Жаҳон банки (IDA) · Субкомпонентлар мониторинги</small></h1>
+    <h1>«Қишлоқ тадбиркорлигини ривожлантириш — 2 фаза»
+      <small>Жаҳон банки · UZ‑7061 · $200 млн · 2022–2026 · ЛАОГ мониторинг платформаси</small></h1>
   </div>
   <div class="top-actions no-print">
     <span class="chip-demo">ДЕМО</span>
@@ -127,42 +154,48 @@ tr:hover td{background:#f7fafd}
 
 <div class="wrap">
 <nav id="nav">
-  <button class="nv on" data-p="dash"><span class="ic">📊</span>Бошқарув панели</button>
-  <button class="nv" data-p="subc"><span class="ic">🗂</span>Субкомпонентлар</button>
-  <button class="nv" data-p="women"><span class="ic">👩‍💼</span>1.4 Аёллар дастури</button>
-  <button class="nv" data-p="sect"><span class="ic">🔗</span>1.2 Сотиш занжирлари</button>
-  <button class="nv" data-p="proc"><span class="ic">📑</span>Шартномалар</button>
-  <button class="nv" data-p="reg"><span class="ic">🗺</span>Ҳудудлар</button>
-  <button class="nv" data-p="rep"><span class="ic">📄</span>Ҳисоботлар</button>
-  <button class="nv" data-p="al"><span class="ic">🔔</span>Огоҳлантиришлар <span class="tag t-bad" id="alCnt">0</span></button>
-  <div class="sep"></div>
-  <button class="nv" data-p="entry"><span class="ic">✍️</span>Маълумот киритиш</button>
-  <button class="nv" onclick="exportJSON()"><span class="ic">⬇</span>JSON экспорт</button>
+  <div class="grp">АСОСИЙ</div>
+  <button class="nv on" data-p="dash"><span class="ic">▦</span>Бошқарув панели</button>
+  <button class="nv" data-p="subc"><span class="ic">☰</span>Субкомпонентлар</button>
+  <div class="grp">1-КОМПОНЕНТ · ТАДБИРКОРЛИК</div>
+  <button class="nv" data-p="inc"><span class="ic">1.1</span>Бизнес инкубация</button>
+  <button class="nv" data-p="sect"><span class="ic">1.2</span>Сотиш занжирлари</button>
+  <button class="nv" data-p="cs"><span class="ic">1.3</span>Climate Smart</button>
+  <button class="nv" data-p="women"><span class="ic">1.4</span>Аёллар дастури</button>
+  <div class="grp">2-КОМПОНЕНТ · МОЛИЯ</div>
+  <button class="nv" data-p="fin"><span class="ic">$</span>Молиялаштириш</button>
+  <div class="grp">НАЗОРАТ</div>
+  <button class="nv" data-p="proc"><span class="ic">✎</span>Шартномалар</button>
+  <button class="nv" data-p="reg"><span class="ic">⌖</span>Ҳудудлар</button>
+  <button class="nv" data-p="rep"><span class="ic">≣</span>Ҳисоботлар</button>
+  <button class="nv" data-p="al"><span class="ic">!</span>Огоҳлантиришлар<span class="cnt tag t-bad" id="alCnt">0</span></button>
+  <button class="nv" data-p="entry"><span class="ic">+</span>Маълумот киритиш</button>
 </nav>
 
 <main>
 
-<!-- ============ DASHBOARD ============ -->
+<!-- ================= БОШҚАРУВ ПАНЕЛИ ================= -->
 <section class="page on" id="p-dash">
-  <div class="ph"><h2>Бошқарув панели</h2><span class="sub" id="todayLab"></span></div>
+  <div class="ph"><div class="crumb">Асосий</div><h2>Бошқарув панели</h2></div>
+  <div class="intro">Бу бўлим лойиҳанинг умумий ҳолатини бир қарашда кўрсатади: бюджет, асосий натижалар ва диққат талаб қилинадиган масалалар. <span id="todayLab"></span></div>
+
   <div class="grid kpis" id="kpiRow"></div>
 
   <div class="grid two mt">
     <div class="card">
-      <h3>1.4 — Даврлар бўйича ўқитилган аёллар <small>(план/факт)</small></h3>
-      <div id="chPeriods"></div>
-      <div class="leg"><span><b style="background:var(--wb-blue)"></b>Факт</span><span><b style="background:#dbe5ee"></b>План (2 000)</span></div>
+      <h3>Бюджет тақсимоти <small>— субкомпонентлар бўйича, млн АҚШ доллари</small></h3>
+      <div id="chBudget" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"></div>
     </div>
     <div class="card">
-      <h3>Умумий мақсадларга эришиш</h3>
+      <h3>Асосий мақсадларга эришиш</h3>
       <div id="chGoals"></div>
     </div>
   </div>
 
   <div class="grid two mt">
     <div class="card">
-      <h3>Округлар кесими <small>(1.4 дастури)</small></h3>
-      <div class="tw"><table id="tOkrug"></table></div>
+      <h3>Субкомпонентлар бажарилиши</h3>
+      <div class="tw"><table id="tScProg"></table></div>
     </div>
     <div class="card">
       <h3>Сўнгги огоҳлантиришлар</h3>
@@ -172,28 +205,79 @@ tr:hover td{background:#f7fafd}
   </div>
 </section>
 
-<!-- ============ SUBCOMPONENTS ============ -->
+<!-- ================= СУБКОМПОНЕНТЛАР ================= -->
 <section class="page" id="p-subc">
-  <div class="ph"><h2>Субкомпонентлар реестри</h2><span class="sub">мақсад · ижрочи · муддат · ҳолат</span></div>
-  <div class="grid" id="subcCards" style="grid-template-columns:repeat(auto-fit,minmax(310px,1fr))"></div>
+  <div class="ph"><div class="crumb">Асосий</div><h2>Субкомпонентлар</h2></div>
+  <div class="intro">Лойиҳа 2 та компонент ва 7 та субкомпонентдан иборат. Ҳар бир картада: бюджет, мақсад (содда тилда), ижрочи ва жорий босқич. «Очиш» тугмаси тегишли бўлимга олиб ўтади.</div>
+  <div class="grid" id="subcCards" style="grid-template-columns:repeat(auto-fit,minmax(330px,1fr))"></div>
 </section>
 
-<!-- ============ 1.4 WOMEN ============ -->
+<!-- ================= 1.1 ИНКУБАЦИЯ ================= -->
+<section class="page" id="p-inc">
+  <div class="ph"><div class="crumb">1-компонент · $5.1 млн</div><h2>1.1 — Мураббийлик ва бизнес инкубация</h2></div>
+  <div class="intro">Бу бўлим 22 та бизнес-инкубаторнинг очилиши ва ишлашини кузатади. Ҳар бир инкубаторга $230 минггача кўмак берилади (камида 90% — мутахассислар иш ҳақига), мақсад — ҳар бири йилига камида 46 та бизнес-лойиҳани йўлга қўйиши.</div>
+
+  <div class="grid kpis" id="iKpis"></div>
+
+  <div class="card mt">
+    <h3>Инкубаторлар ҳолати — ҳудудлар кесими</h3>
+    <div class="tw"><table id="tInc"></table></div>
+    <div class="leg"><span><b style="background:var(--ok)"></b>Фаолиятда</span><span><b style="background:var(--blue)"></b>Жиҳозланмоқда</span><span><b style="background:#93a3b5"></b>Танлов босқичида</span></div>
+  </div>
+
+  <div class="card mt">
+    <h3>Кўмак тартиби <small>— ҳар бир инкубатор учун</small></h3>
+    <div class="tw"><table id="tIncRule"></table></div>
+  </div>
+</section>
+
+<!-- ================= 1.2 СОТИШ ЗАНЖИРЛАРИ ================= -->
+<section class="page" id="p-sect">
+  <div class="ph"><div class="crumb">1-компонент · $0.7 млн</div><h2>1.2 — Ҳамкорлик ва сотиш занжирлари</h2></div>
+  <div class="intro">Бу бўлим харидор топа олмаётган кичик тадбиркорлик соҳаларига кўмакни кузатади. Камида 7 та шундай соҳа аниқланиб, ҳар бирида сотиш йўлга қўйилади: тавсиялар, кўргазмалар, хорижий харидорлар. Мақсад — камида 20 та янги шартнома.</div>
+
+  <div class="grid kpis" id="sKpis"></div>
+
+  <div class="card mt">
+    <h3>Соҳалар бўйича жараён <small>— босқичлар: сўровнома → таҳлил → тавсия пакети → кўргазма → агрегатор</small></h3>
+    <div class="tw"><table id="tSect"></table></div>
+  </div>
+</section>
+
+<!-- ================= 1.3 CLIMATE SMART ================= -->
+<section class="page" id="p-cs">
+  <div class="ph"><div class="crumb">1-компонент · $5.5 млн</div><h2>1.3 — Climate Smart технологиялар демонстрацияси</h2></div>
+  <div class="intro">Бу бўлим иқлимга мос («Climate Smart») технологияларнинг намойиши ва тарқалишини кузатади: сув ва энергияни тежайдиган, иқлим ўзгаришига мослашган ечимлар тадбиркорлар объектида ўрнатилади ва бошқаларга ўргатилади. Мақсад — камида 25 тур, 500 та технология ўзлаштирилиши, 25 стартап, 850 иш ўрни.</div>
+
+  <div class="grid kpis" id="cKpis"></div>
+
+  <div class="card mt">
+    <h3>Технологиялар бўйича жараён <small>— босқичлар: аниқлаш → асослаш → танлов → ўрнатиш → тарғибот</small></h3>
+    <div class="tw"><table id="tCs"></table></div>
+  </div>
+
+  <div class="card mt">
+    <h3>Округ консультантлари <small>— ҳар округ учун алоҳида ташкилот, 215 иш куни</small></h3>
+    <div class="tw"><table id="tCsCons"></table></div>
+  </div>
+</section>
+
+<!-- ================= 1.4 АЁЛЛАР ================= -->
 <section class="page" id="p-women">
-  <div class="ph"><h2>1.4 — Аёллар тадбиркорлигини ривожлантириш</h2>
-    <span class="sub">5 давр × 6 ой · 120 соат ўқитиш · грантлар: якка $5 000 / гуруҳ $15 000</span></div>
+  <div class="ph"><div class="crumb">1-компонент · $8.7 млн</div><h2>1.4 — Аёллар тадбиркорлигини ривожлантириш</h2></div>
+  <div class="intro">Бу бўлим қишлоқдаги кам таъминланган аёлларни тадбиркорликка ўқитиш ва грант беришни кузатади. 5 та давр (ҳар бири 6 ой: 5 ой ўқитиш + 1 ой грант танлови). Грант: якка тартибда $5 000 гача, гуруҳ бўлиб (3+ аёл) $15 000 гача. Мақсад — 10 000 аёл ўқитилади, 1 000 таси грант олади.</div>
 
   <div class="grid kpis" id="wKpis"></div>
 
   <div class="card mt">
-    <h3>Даврлар ҳолати</h3>
+    <h3>Даврлар ҳолати <small>— ҳар даврда режа: 2 000 аёл, 200 грант</small></h3>
     <div class="tw"><table id="tPeriods"></table></div>
   </div>
 
   <div class="grid two mt">
     <div class="card">
-      <h3>Тренинглар журнали (MIS) <small>— 24 соат қоидаси</small></h3>
-      <div class="note">Қоида: тренинг камида <b>24 соат олдин</b> тизимда тасдиқланади; ўтказилгач натижалар <b>24 соат ичида</b> киритилади.</div>
+      <h3>Тренинглар журнали <small>— ахборот тизими (MIS) қоидаси билан</small></h3>
+      <div class="intro" style="margin:0 0 12px">Қоида: ҳар бир машғулот камида 24 соат олдин тизимда тасдиқланади; ўтказилгач натижалар 24 соат ичида киритилади.</div>
       <div class="tw"><table id="tTrain"></table></div>
     </div>
     <div class="card">
@@ -203,74 +287,106 @@ tr:hover td{background:#f7fafd}
   </div>
 </section>
 
-<!-- ============ 1.2 SECTORS ============ -->
-<section class="page" id="p-sect">
-  <div class="ph"><h2>1.2 — Ҳамкорликни ривожлантириш ва сотиш занжирлари</h2>
-    <span class="sub">бюджет $0.72 млн · мақсад: камида 7 кучсиз соҳани аниқлаш ва сотиш занжирини яратиш</span></div>
+<!-- ================= 2-КОМПОНЕНТ МОЛИЯ ================= -->
+<section class="page" id="p-fin">
+  <div class="ph"><div class="crumb">2-компонент · $175.8 млн</div><h2>Молиялаштириш</h2></div>
+  <div class="intro">Бу бўлим лойиҳанинг молиявий қисмини кузатади: тижорат банклари орқали кредит линияси (2.1), кафолат жамғармаси (2.2) ва молия ташкилотларига техник кўмак (2.3).</div>
 
-  <div class="grid kpis" id="sKpis"></div>
+  <div class="grid kpis" id="fKpis"></div>
 
   <div class="card mt">
-    <h3>Соҳалар бўйича жараён <small>(сўровнома → таҳлил → тавсия пакети → кўргазма/ярмарка → агрегатор)</small></h3>
-    <div class="tw"><table id="tSect"></table></div>
+    <h3>2.1 · Кредит линияси — $146 млн <small>— иштирокчи тижорат банклари</small></h3>
+    <div class="tw"><table id="tBanks"></table></div>
+  </div>
+
+  <div class="grid two mt">
+    <div class="card">
+      <h3>Субкредит шартлари</h3>
+      <div class="tw"><table id="tTerms"></table></div>
+    </div>
+    <div class="card">
+      <h3>Фоиз ставкалари</h3>
+      <div class="tw"><table id="tRates"></table></div>
+    </div>
+  </div>
+
+  <div class="grid two mt">
+    <div class="card">
+      <h3>2.2 · Кафолат жамғармаси — $29.3 млн</h3>
+      <div id="tGuar"></div>
+    </div>
+    <div class="card">
+      <h3>2.3 · Молия ташкилотларига техник кўмак — $0.5 млн</h3>
+      <div id="tTa"></div>
+    </div>
   </div>
 </section>
 
-<!-- ============ PROCUREMENT ============ -->
+<!-- ================= ШАРТНОМАЛАР ================= -->
 <section class="page" id="p-proc">
-  <div class="ph"><h2>Шартномалар ва ижрочилар</h2>
-    <span class="sub">Жаҳон банки тартиб-таомиллари бўйича харидлар</span></div>
+  <div class="ph"><div class="crumb">Назорат</div><h2>Шартномалар ва ижрочилар</h2></div>
+  <div class="intro">Бу бўлим барча ижрочи ташкилотлар билан тузилган шартномаларни ва улар топшириши керак бўлган ишларнинг муддатларини кузатади. Харидлар Жаҳон банки тартиб-таомиллари бўйича амалга оширилади.</div>
   <div class="card"><div class="tw"><table id="tProc"></table></div></div>
   <div class="card mt">
-    <h3>Асосий deliverable'лар назорати</h3>
+    <h3>Топшириладиган ишлар назорати</h3>
     <div class="tw"><table id="tDeliv"></table></div>
   </div>
 </section>
 
-<!-- ============ REGIONS ============ -->
+<!-- ================= ҲУДУДЛАР ================= -->
 <section class="page" id="p-reg">
-  <div class="ph"><h2>Ҳудудлар қамрови</h2><span class="sub">9 ҳудуд · 20 туман · ~200 маҳалла · 4 округ</span></div>
-  <div class="card"><div class="tw"><table id="tReg"></table></div></div>
+  <div class="ph"><div class="crumb">Назорат</div><h2>Ҳудудлар қамрови</h2></div>
+  <div class="intro">Лойиҳа 10 та ҳудудда амалга оширилади. Қуйида ҳудудлар йиғмаси, сўнгра аёллар дастури (1.4) қамраб олган 20 туман кесими берилган.</div>
+  <div class="card">
+    <h3>Лойиҳа ҳудудлари йиғмаси</h3>
+    <div class="tw"><table id="tRegSum"></table></div>
+  </div>
+  <div class="card mt">
+    <h3>1.4 Аёллар дастури — туманлар кесими <small>(9 ҳудуд · 20 туман · ~200 маҳалла)</small></h3>
+    <div class="tw"><table id="tReg"></table></div>
+  </div>
 </section>
 
-<!-- ============ REPORTS ============ -->
+<!-- ================= ҲИСОБОТЛАР ================= -->
 <section class="page" id="p-rep">
-  <div class="ph"><h2>Ҳисоботлар назорати</h2>
-    <span class="sub">CMP ойлиги — кейинги ойнинг 5‑санасигача · БТҚБТ якунийси — тасдиқдан кейин 10 иш куни, ўзбек+инглиз</span></div>
+  <div class="ph"><div class="crumb">Назорат</div><h2>Ҳисоботлар назорати</h2></div>
+  <div class="intro">Қоидалар: Ҳамкор ташкилотнинг ойлик ҳисоботи — кейинги ойнинг 5-санасигача; ижрочиларнинг якуний ҳисоботлари — тасдиқдан кейин 10 иш куни ичида, ўзбек ва инглиз тилларида. Кечиккан ҳисоботлар қизил белгиланади.</div>
   <div class="card"><div class="tw"><table id="tRep"></table></div></div>
 </section>
 
-<!-- ============ ALERTS ============ -->
+<!-- ================= ОГОҲЛАНТИРИШЛАР ================= -->
 <section class="page" id="p-al">
-  <div class="ph"><h2>Огоҳлантиришлар</h2><span class="sub">автоматик қоидалар + қўлда киритилган</span></div>
+  <div class="ph"><div class="crumb">Назорат</div><h2>Огоҳлантиришлар</h2></div>
+  <div class="intro">Тизим қоидалар асосида огоҳлантиришларни ўзи ҳосил қилади (ҳисобот кечикди, режадан орқада, муддат яқинлашди ва ҳ.к.). Қўлда ҳам қўшиш мумкин («Маълумот киритиш» бўлимида).</div>
   <div class="card" id="alList"></div>
 </section>
 
-<!-- ============ DATA ENTRY ============ -->
+<!-- ================= КИРИТИШ ================= -->
 <section class="page" id="p-entry">
-  <div class="ph"><h2>Маълумот киритиш</h2><span class="sub">киритилганлар шу қурилмада (localStorage) сақланади</span></div>
+  <div class="ph"><div class="crumb">Назорат</div><h2>Маълумот киритиш</h2></div>
+  <div class="intro">Бу бўлимда янги ёзувлар қўшилади. Киритилганлар шу қурилманинг ўзида (браузер хотирасида) сақланади ва тегишли жадвалларда дарҳол кўринади.</div>
 
   <div class="card">
-    <h3>Тренинг қўшиш (MIS)</h3>
+    <h3>Тренинг қўшиш — 1.4 аёллар дастури</h3>
     <form class="form" id="fTrain">
       <div><label>Сана</label><input type="date" name="date" required></div>
       <div><label>Туман</label><select name="district" required></select></div>
-      <div><label>Маҳалла / гуруҳ</label><input name="group" placeholder="Гулистон МФЙ, 2-гуруҳ" required></div>
+      <div><label>Маҳалла ва гуруҳ</label><input name="group" placeholder="Гулистон МФЙ, 2-гуруҳ" required></div>
       <div><label>Мавзу</label><input name="topic" placeholder="Бизнес режа: харажатлар" required></div>
-      <div><label>Иштирокчилар</label><input type="number" name="att" min="0" max="30" value="8" required></div>
-      <div><label>Ҳолат</label><select name="st"><option value="tasdiqlangan">Тасдиқланган (24с олдин)</option><option value="otkazildi">Ўтказилди, натижа киритилди</option><option value="kutilmoqda">Натижа кутилмоқда</option></select></div>
+      <div><label>Иштирокчилар сони</label><input type="number" name="att" min="0" max="30" value="8" required></div>
+      <div><label>Ҳолат</label><select name="st"><option value="tasdiqlangan">Тасдиқланган (24 соат олдин)</option><option value="otkazildi">Ўтказилди, натижа киритилди</option><option value="kutilmoqda">Натижа кутилмоқда</option></select></div>
       <div class="full no-print"><button class="btn">Сақлаш</button></div>
     </form>
   </div>
 
   <div class="card mt">
-    <h3>Грант ёзуви қўшиш</h3>
+    <h3>Грант ёзуви қўшиш — 1.4 аёллар дастури</h3>
     <form class="form" id="fGrant">
       <div><label>Давр</label><select name="period"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select></div>
       <div><label>Туман</label><select name="district" required></select></div>
-      <div><label>Олувчи (аёл / гуруҳ)</label><input name="who" placeholder="Гуруҳ: «Ҳунарманд аёллар»" required></div>
+      <div><label>Олувчи (аёл ёки гуруҳ)</label><input name="who" placeholder="Гуруҳ: «Ҳунарманд аёллар»" required></div>
       <div><label>Тури</label><select name="type"><option value="yakka">Якка ($5 000 гача)</option><option value="guruh">Гуруҳ ($15 000 гача)</option></select></div>
-      <div><label>Сумма (USD)</label><input type="number" name="usd" min="100" max="15000" value="5000" required></div>
+      <div><label>Сумма (АҚШ доллари)</label><input type="number" name="usd" min="100" max="15000" value="5000" required></div>
       <div><label>Ҳолат</label><select name="st"><option value="ariza">Ариза</option><option value="golib">Ғолиб</option><option value="ozlashtirilmoqda">Ўзлаштирилмоқда</option><option value="yakunlandi">Якунланди</option></select></div>
       <div class="full no-print"><button class="btn">Сақлаш</button></div>
     </form>
@@ -288,7 +404,7 @@ tr:hover td{background:#f7fafd}
   <div class="card mt no-print">
     <h3>Маҳаллий маълумотлар</h3>
     <div class="flexh">
-      <button class="btn sec" onclick="exportJSON()">⬇ JSON экспорт</button>
+      <button class="btn sec" onclick="exportJSON()">⬇ JSON юклаб олиш</button>
       <button class="btn sec" onclick="if(confirm('Киритилган барча маҳаллий ёзувлар ўчирилсинми?')){localStorage.removeItem(LSKEY);location.reload()}">🗑 Киритилганларни тозалаш</button>
     </div>
   </div>
@@ -299,265 +415,356 @@ tr:hover td{background:#f7fafd}
 
 <script>
 "use strict";
-/* =================== ДЕМО МАЪЛУМОТЛАР (ТЗларга асосланган) =================== */
-const TODAY = new Date();
-const LSKEY = "qtr2_laog_v1";
-
-const OKRUGS = [
- {n:1, regions:[["Қорақалпоғистон Р.",["Мўйноқ","Қонликўл","Бўзатов"]],["Хоразм",["Янгиариқ","Хазорасп"]]]},
- {n:2, regions:[["Бухоро",["Олот","Пешку"]],["Навоий",["Томди","Конимех"]]]},
- {n:3, regions:[["Сурхондарё",["Бандихон","Қизириқ"]],["Қашқадарё",["Деҳқонобод","Миришкор","Қамаши"]],["Самарқанд",["Қўшработ","Оқдарё","Каттақўрғон"]]]},
- {n:4, regions:[["Сирдарё",["Сардоба"]],["Тошкент вил.",["Бўка","Бекобод"]]]},
-];
-const DISTRICTS = OKRUGS.flatMap(o=>o.regions.flatMap(([reg,ds])=>ds.map(d=>({okrug:o.n,region:reg,district:d}))));
-
-/* детерминистик «тасодиф» — демо барқарорлиги учун */
+/* ============ ДЕМО МАЪЛУМОТЛАР — ТЗ ва презентация (14.04.2023) асосида ============ */
+const TODAY=new Date();
+const LSKEY="qtr2_laog_v2";
+const $=s=>document.querySelector(s);
+const fmt=n=>n.toLocaleString("ru-RU");
 const wig=(i,j)=>((Math.sin(i*12.9898+j*78.233)*43758.5453)%1+1)%1;
 
-/* 5 давр (ҳар бири 6 ой): план 2000 аёл, 200 грант */
-const PERIODS=[
- {n:1, span:"2024 янв–июн", trained:1840, grants:200, gUsd:1.18, st:"yakunlangan"},
- {n:2, span:"2024 июл–дек", trained:1960, grants:200, gUsd:1.22, st:"yakunlangan"},
- {n:3, span:"2025 янв–июн", trained:2050, grants:198, gUsd:1.19, st:"yakunlangan"},
- {n:4, span:"2025 июл–дек", trained:1875, grants:204, gUsd:1.27, st:"yakunlangan"},
- {n:5, span:"2026 янв–июн", trained:1620, grants:64,  gUsd:0.38, st:"grant"},
+/* --- субкомпонентлар реестри (тартиби қатъий) --- */
+const SUBC=[
+ {num:"1.1",comp:1,name:"Мураббийлик ва бизнес инкубация",usd:5.1,page:"inc",prog:73,st:"faol",
+  goal:"22 та бизнес-инкубатор очилади; ҳар бири йилига камида 46 та янги бизнес-лойиҳани йўлга қўяди.",
+  exec:"Ташаббускорлар (танлов) + ЛАОГ", stage:"17 та инкубатор фаолиятда"},
+ {num:"1.2",comp:1,name:"Ҳамкорлик ва сотиш занжирлари",usd:0.7,page:"sect",prog:76,st:"faol",
+  goal:"Харидор топа олмаётган камида 7 та соҳага сотишни йўлга қўйишда кўмак; камида 20 та янги шартнома.",
+  exec:"Маркетинг консультанти", stage:"9 соҳа таҳлилдан ўтди, ярмаркалар тайёрланмоқда"},
+ {num:"1.3",comp:1,name:"Climate Smart технологиялар демонстрацияси",usd:5.5,page:"cs",prog:62,st:"faol",
+  goal:"Камида 25 тур иқлимга мос технология намойиш этилади; 500 таси ўзлаштирилади, 25 стартап, 850 иш ўрни.",
+  exec:"4 округ консультантлари + ЛАОГ", stage:"287 та технология ўзлаштирилди"},
+ {num:"1.4",comp:1,name:"Аёллар тадбиркорлигини ривожлантириш",usd:8.7,page:"women",prog:89,st:"faol",
+  goal:"10 000 қишлоқ аёли тадбиркорликка ўқитилади; 1 000 таси грант олади ($5 000 / $15 000 гача).",
+  exec:"БТҚБТ ×4 округ + Ҳамкор ташкилот", stage:"Давр‑5 (охирги) — грант босқичи"},
+ {num:"2.1",comp:2,name:"Кичик бизнес учун кредит линияси",usd:146.0,page:"fin",prog:58,st:"faol",
+  goal:"Тижорат банклари орқали 600 та тадбиркорлик лойиҳаси молияланади.",
+  exec:"4 та тижорат банки", stage:"412 та субкредит ажратилди"},
+ {num:"2.2",comp:2,name:"Кафолат жамғармаси",usd:29.3,page:"fin",prog:54,st:"faol",
+  goal:"Гарови етишмайдиган тадбиркорларга кредитнинг 50% гача кафиллик берилади.",
+  exec:"Тадбиркорликни қўллаб-қувватлаш давлат жамғармаси", stage:"168 та кафолат берилди"},
+ {num:"2.3",comp:2,name:"Молия ташкилотларига техник кўмак",usd:0.5,page:"fin",prog:45,st:"faol",
+  goal:"Банклар рақамли ва инновацион молиялаш усулларига ўқитилади.",
+  exec:"Консультант", stage:"Ўқув дастури амалга оширилмоқда"},
 ];
-const PLAN_TRAIN=2000, PLAN_GRANT=200, TOT_TRAIN=10000, TOT_GRANT=1000;
 
-/* туман кесими (демо): ўқитилганлар тақсимоти */
-const DIST_STATS = DISTRICTS.map((d,i)=>{
-  const tr=Math.round(380+wig(i,1)*220);          // жами ўқитилган
-  const gr=Math.round(38+wig(i,2)*22);            // жами грант
-  const mah=10;                                   // маҳаллалар
-  const grp=Math.round(18+wig(i,3)*14);           // гуруҳлар
-  return {...d, mah, grp, tr, gr};
+/* --- 1.1 инкубаторлар (ҳудудлар кесими, демо) --- */
+const REGIONS10=["Қорақалпоғистон Р.","Бухоро","Жиззах","Навоий","Қашқадарё","Самарқанд","Сирдарё","Сурхондарё","Тошкент вил.","Хоразм"];
+const INCUB=REGIONS10.map((r,i)=>{
+  const plan=i<2?3:2; // жами 22
+  const live=Math.min(plan,Math.round(1+wig(i,7)*2));
+  const equip=Math.min(plan-live,1), tender=plan-live-equip;
+  const proj=live*Math.round(31+wig(i,8)*17);
+  return {region:r,plan,live,equip,tender,proj,target:live*46};
 });
 
-/* 1.2 — 17 намунавий соҳа (сўровнома иловасидан), pipeline ҳолати */
-const PIPE=["Сўровнома","Таҳлил","Тавсия пакети","Кўргазма","Агрегатор"];
+/* --- 1.2 соҳалар (сўровномадаги 17 намунавий йўналиш) --- */
+const PIPE12=["Сўровнома","Таҳлил","Тавсия пакети","Кўргазма","Агрегатор"];
 const SECTORS=[
- ["Кичик тикувчилик цехлари (4–30 машина)",5,142],
- ["Пайпоқ тўқиш цехлари (1–20 ускуна)",4,88],
- ["Қуёнчилик (100–5000 бош)",3,104],
- ["Кичик қадоқлаш (шу жумладан вакуум)",4,71],
- ["Газоблок/пеноблок/брусчатка (10 минг/кун гача)",2,63],
- ["Сут ва гўшт етиштириш (5–25 бош)",3,156],
- ["Қўйчилик (500 бошгача)",2,97],
- ["Боғдорчилик (1–10 га)",3,118],
- ["Асаларичилик (5–100 яшик)",5,134],
- ["Мебель / ПВХ-алюмин ром (20 м²/кун)",2,59],
- ["Сутни қайта ишлаш (100 т/йил)",3,66],
- ["Қўзиқорин етиштириш (20 т/йил)",4,52],
- ["Парник сабзавот/кўкат (50 сотихгача)",3,121],
- ["Пишган ғишт (10 минг/кун)",1,44],
- ["Қ/х маҳсулотини консервалаш (100 т/йил)",2,73],
- ["Қ/х маҳсулотини қуритиш (100 т/йил)",4,81],
+ ["Кичик тикувчилик цехлари (4–30 машина)",5,142],["Пайпоқ тўқиш цехлари (1–20 ускуна)",4,88],
+ ["Қуёнчилик (100–5 000 бош)",3,104],["Кичик қадоқлаш (вакуум қадоқлаш ҳам)",4,71],
+ ["Газоблок ва брусчатка (кунига 10 минггача)",2,63],["Сут ва гўшт етиштириш (5–25 бош)",3,156],
+ ["Қўйчилик (500 бошгача)",2,97],["Боғдорчилик (1–10 гектар)",3,118],
+ ["Асаларичилик (5–100 яшик)",5,134],["Мебель ва пластик ром (кунига 20 м²)",2,59],
+ ["Сутни қайта ишлаш (йилига 100 тонна)",3,66],["Қўзиқорин етиштириш (йилига 20 тонна)",4,52],
+ ["Иссиқхона сабзавот-кўкат (50 сотихгача)",3,121],["Пишган ғишт (кунига 10 мингта)",1,44],
+ ["Мева-сабзавот консервалаш (йилига 100 т)",2,73],["Мева-сабзавот қуритиш (йилига 100 т)",4,81],
  ["Миллий ҳунармандчилик буюмлари",2,49],
-].map(([name,stage,subj],i)=>({name,stage,subj}));
+].map(([name,stage,subj])=>({name,stage,subj}));
 
-/* шартномалар */
-const fmtD=d=>d; // саналар матн кўринишида
+/* --- 1.3 технологиялар (демо) --- */
+const PIPE13=["Аниқлаш","Асослаш","Танлов","Ўрнатиш","Тарғибот"];
+const TECHS=[
+ ["Томчилатиб суғориш тизими",5,64],["Қуёш панели (кичик қувват)",5,52],
+ ["Энергия тежамкор иссиқхона",4,38],["Биогаз қурилмаси",4,21],
+ ["Қуёшли сув насоси",5,33],["Совуқхона (энергия тежамкор)",3,18],
+ ["Сувни қайта ишлатиш тизими",3,12],["Қурғоқчиликка чидамли уруғлар",4,26],
+ ["Мульча плёнкаси билан экиш",3,14],["Қуёшли мева қуритгич",4,9],
+].map(([name,stage,units])=>({name,stage,units}));
+const CS={typesPlan:25,typesNow:21,unitsPlan:500,unitsNow:287,startPlan:25,startNow:14,jobsPlan:850,jobsNow:512};
+const CS_CONS=[
+ {okrug:"1-округ — Қорақалпоғистон Р., Хоразм", st:"yakunlangan", note:"215 иш куни · якуний ҳисобот қабул қилинган"},
+ {okrug:"2-округ — Бухоро, Навоий", st:"yakunlangan", note:"215 иш куни · якуний ҳисобот қабул қилинган"},
+ {okrug:"3-округ — Сурхондарё, Қашқадарё, Самарқанд", st:"faol", note:"тарғибот босқичи давом этмоқда"},
+ {okrug:"4-округ — Жиззах, Сирдарё, Тошкент вил.", st:"faol", note:"тарғибот босқичи давом этмоқда"},
+];
+
+/* --- 1.4 аёллар дастури --- */
+const OKRUGS14=[
+ {n:1,regions:[["Қорақалпоғистон Р.",["Мўйноқ","Қонликўл","Бўзатов"]],["Хоразм",["Янгиариқ","Хазорасп"]]]},
+ {n:2,regions:[["Бухоро",["Олот","Пешку"]],["Навоий",["Томди","Конимех"]]]},
+ {n:3,regions:[["Сурхондарё",["Бандихон","Қизириқ"]],["Қашқадарё",["Деҳқонобод","Миришкор","Қамаши"]],["Самарқанд",["Қўшработ","Оқдарё","Каттақўрғон"]]]},
+ {n:4,regions:[["Сирдарё",["Сардоба"]],["Тошкент вил.",["Бўка","Бекобод"]]]},
+];
+const DISTRICTS=OKRUGS14.flatMap(o=>o.regions.flatMap(([reg,ds])=>ds.map(d=>({okrug:o.n,region:reg,district:d}))));
+const PERIODS=[
+ {n:1,span:"2024 янв–июн",trained:1840,grants:200,gUsd:0.78,st:"yakunlangan"},
+ {n:2,span:"2024 июл–дек",trained:1960,grants:200,gUsd:0.81,st:"yakunlangan"},
+ {n:3,span:"2025 янв–июн",trained:2050,grants:198,gUsd:0.80,st:"yakunlangan"},
+ {n:4,span:"2025 июл–дек",trained:1875,grants:204,gUsd:0.84,st:"yakunlangan"},
+ {n:5,span:"2026 янв–июн",trained:1620,grants:64,gUsd:0.26,st:"grant"},
+];
+const PLAN_TRAIN=2000,PLAN_GRANT=200,TOT_TRAIN=10000,TOT_GRANT=1000;
+const DIST_STATS=DISTRICTS.map((d,i)=>({...d,mah:10,grp:Math.round(18+wig(i,3)*14),tr:Math.round(380+wig(i,1)*220),gr:Math.round(38+wig(i,2)*22)}));
+const TRAININGS=[
+ {date:"2026‑06‑10",district:"Қамаши",group:"Оқтепа МФЙ, 1‑гуруҳ",topic:"Бизнес режа: сотиш занжири",att:9,st:"kutilmoqda"},
+ {date:"2026‑06‑10",district:"Сардоба",group:"Гулистон МФЙ, 2‑гуруҳ",topic:"Амалиёт: иссиқхона",att:8,st:"otkazildi"},
+ {date:"2026‑06‑11",district:"Олот",group:"Боғишамол МФЙ, 1‑гуруҳ",topic:"Молиявий ҳисоб-китоб",att:10,st:"tasdiqlangan"},
+ {date:"2026‑06‑12",district:"Мўйноқ",group:"Балиқчи МФЙ, 3‑гуруҳ",topic:"Қадоқлаш амалиёти",att:7,st:"tasdiqlangan"},
+ {date:"2026‑06‑09",district:"Бекобод",group:"Дўстлик МФЙ, 2‑гуруҳ",topic:"Грант аризасини тайёрлаш",att:9,st:"otkazildi"},
+];
+const GRANTS=[
+ {period:5,district:"Каттақўрғон",who:"Гуруҳ «Ҳунарманд аёллар» (4 аёл)",type:"guruh",usd:14200,st:"golib"},
+ {period:5,district:"Хазорасп",who:"З. Раҳимова",type:"yakka",usd:4800,st:"golib"},
+ {period:5,district:"Қизириқ",who:"Гуруҳ «Иссиқхона‑агро» (3 аёл)",type:"guruh",usd:12600,st:"ozlashtirilmoqda"},
+ {period:5,district:"Томди",who:"Г. Қурбонова",type:"yakka",usd:3900,st:"ariza"},
+ {period:4,district:"Деҳқонобод",who:"М. Эшқулова",type:"yakka",usd:5000,st:"yakunlandi"},
+];
+
+/* --- 2-компонент --- */
+const BANKS=[
+ {bank:"Қишлоқ қурилиш банк",usd:30,given:24.6,loans:128,st:"faol"},
+ {bank:"Микрокредитбанк",usd:20,given:16.1,loans:172,st:"faol"},
+ {bank:"Туронбанк",usd:10,given:6.4,loans:58,st:"faol"},
+ {bank:"Халқ банки",usd:30,given:18.2,loans:54,st:"faol"},
+];
+const FIN={subPlan:600,subNow:412,guarNow:168,guarUsd:21.4,tranche:14.65,guarPlan:58.6};
+
+/* --- шартномалар ва топшириладиган ишлар --- */
 const CONTRACTS=[
- {code:"BPO‑1", who:"БТҚБТ (1‑округ)", scope:"Базавий бизнес режалар, ўқитиш методологияси", t:"3 ой", from:"2023‑11", to:"2024‑02", st:"yakunlangan", sum:"$58 000"},
- {code:"BPO‑2", who:"БТҚБТ (2‑округ)", scope:"Базавий бизнес режалар, ўқитиш методологияси", t:"3 ой", from:"2023‑11", to:"2024‑02", st:"yakunlangan", sum:"$52 000"},
- {code:"BPO‑3", who:"БТҚБТ (3‑округ)", scope:"Базавий бизнес режалар, ўқитиш методологияси", t:"3 ой", from:"2023‑12", to:"2024‑03", st:"yakunlangan", sum:"$84 000"},
- {code:"BPO‑4", who:"БТҚБТ (4‑округ)", scope:"Базавий бизнес режалар, ўқитиш методологияси", t:"3 ой", from:"2023‑12", to:"2024‑03", st:"yakunlangan", sum:"$47 000"},
- {code:"CMP",   who:"Ҳамкор ташкилот", scope:"Мобилизация, 120 соат ўқитиш, грант мониторинги, MIS", t:"36 ой", from:"2023‑12", to:"2026‑12", st:"faol", sum:"шартнома бўйича"},
- {code:"SC‑1.2",who:"Маркетинг консультанти", scope:"Соҳа таҳлиллари, тавсия пакетлари, сотиш занжири", t:"24 ой", from:"2024‑03", to:"2026‑03", st:"faol", sum:"$310 000"},
+ {code:"INC",who:"22 ташаббускор (1.1)",scope:"Бизнес-инкубаторлар: бино, мутахассислар, фаолият",t:"2 йилгача кўмак",from:"2023‑07",to:"2026‑12",st:"faol",sum:"$230 минггача / инкубатор"},
+ {code:"SC‑1.2",who:"Маркетинг консультанти",scope:"Соҳа таҳлиллари, тавсия пакетлари, кўргазмалар",t:"24 ой",from:"2024‑03",to:"2026‑03",st:"faol",sum:"$310 000"},
+ {code:"CS‑1…4",who:"Climate Smart консультантлари (4 округ)",scope:"Технологияларни аниқлаш, асослаш, ўрнатиш, тарғибот",t:"215 иш куни",from:"2023‑07",to:"2024‑06",st:"faol",sum:"$480 000 (жами)"},
+ {code:"BPO‑1…4",who:"Бизнесни таҳлил қилувчи ташкилотлар (1.4)",scope:"Базавий бизнес режалар, ўқитиш методологияси",t:"3 ой",from:"2023‑11",to:"2024‑03",st:"yakunlangan",sum:"$241 000 (жами)"},
+ {code:"CMP",who:"Ҳамкор ташкилот (1.4)",scope:"Аёлларни жалб қилиш, 120 соат ўқитиш, грант мониторинги",t:"36 ой",from:"2023‑12",to:"2026‑12",st:"faol",sum:"шартнома бўйича"},
+ {code:"TA‑2.3",who:"Молия консультанти",scope:"Банклар учун ўқув дастури, тренинглар",t:"18 ой",from:"2025‑01",to:"2026‑07",st:"faol",sum:"$420 000"},
 ];
 const DELIV=[
- {c:"CMP", d:"Давр‑5 ойлик ҳисобот (май)", due:"2026‑06‑05", st:"kechikdi", days:6},
- {c:"CMP", d:"Давр‑5 грант танлови ҳужжатлари", due:"2026‑06‑20", st:"jarayonda", days:-9},
- {c:"SC‑1.2", d:"Асаларичилик тавсия пакети (якуний)", due:"2026‑06‑30", st:"jarayonda", days:-19},
- {c:"SC‑1.2", d:"Кузги ярмарка режаси (4 ҳудуд)", due:"2026‑07‑15", st:"rejada", days:-34},
- {c:"BPO‑3", d:"Якуний ҳисобот (инглизча нусха)", due:"2024‑04‑10", st:"qabul", days:0},
- {c:"CMP", d:"Мобилизаторлар чораклик тренинги (Q3)", due:"2026‑07‑01", st:"rejada", days:-20},
+ {c:"CMP",d:"Давр‑5 ойлик ҳисоботи (май)",due:"2026‑06‑05",st:"kechikdi",days:6},
+ {c:"CMP",d:"Давр‑5 грант танлови ҳужжатлари",due:"2026‑06‑20",st:"jarayonda",days:-9},
+ {c:"SC‑1.2",d:"Асаларичилик тавсия пакети (якуний)",due:"2026‑06‑30",st:"jarayonda",days:-19},
+ {c:"SC‑1.2",d:"Кузги ярмарка режаси (4 ҳудуд)",due:"2026‑07‑15",st:"rejada",days:-34},
+ {c:"CS‑3",d:"Тарғибот ҳисоботи (2-чорак)",due:"2026‑07‑10",st:"rejada",days:-29},
+ {c:"TA‑2.3",d:"Рақамли молиялаш тренинги (3-модул)",due:"2026‑06‑25",st:"jarayonda",days:-14},
+ {c:"INC",d:"Жиззах инкубатори жиҳозлаш харидлари",due:"2026‑07‑01",st:"jarayonda",days:-20},
 ];
-
-/* ҳисоботлар */
 const REPORTS=[
- {who:"CMP", what:"Ойлик ҳисобот — 2026 май", due:"2026‑06‑05", got:"—", st:"kechikdi"},
- {who:"CMP", what:"Ойлик ҳисобот — 2026 апрель", due:"2026‑05‑05", got:"2026‑05‑04", st:"qabul"},
- {who:"CMP", what:"Ойлик ҳисобот — 2026 март", due:"2026‑04‑05", got:"2026‑04‑05", st:"qabul"},
- {who:"SC‑1.2", what:"Чораклик таҳлил ҳисоботи — 2026 Q1", due:"2026‑04‑15", got:"2026‑04‑12", st:"qabul"},
- {who:"CMP", what:"Давр‑4 якуний ҳисоботи", due:"2026‑01‑20", got:"2026‑01‑18", st:"qabul"},
- {who:"БТҚБТ‑3", what:"Якуний йиғма ҳисобот (ўзб+инг)", due:"2024‑04‑10", got:"2024‑04‑09", st:"qabul"},
+ {who:"Ҳамкор ташкилот",what:"Ойлик ҳисобот — 2026 май",due:"2026‑06‑05",got:"—",st:"kechikdi"},
+ {who:"Ҳамкор ташкилот",what:"Ойлик ҳисобот — 2026 апрель",due:"2026‑05‑05",got:"2026‑05‑04",st:"qabul"},
+ {who:"Маркетинг конс. (1.2)",what:"Чораклик таҳлил — 2026 Q1",due:"2026‑04‑15",got:"2026‑04‑12",st:"qabul"},
+ {who:"CS‑4 консультанти",what:"Тарғибот ҳисоботи — 1-чорак",due:"2026‑04‑10",got:"2026‑04‑08",st:"qabul"},
+ {who:"Ҳамкор ташкилот",what:"Давр‑4 якуний ҳисоботи",due:"2026‑01‑20",got:"2026‑01‑18",st:"qabul"},
+ {who:"БТҚБТ‑3",what:"Якуний йиғма ҳисобот (ўзбекча + инглизча)",due:"2024‑04‑10",got:"2024‑04‑09",st:"qabul"},
 ];
 
-/* тренинглар журнали (демо) */
-const TRAININGS=[
- {date:"2026‑06‑10", district:"Қамаши", group:"Оқтепа МФЙ, 1‑гуруҳ", topic:"Бизнес режа: сотиш занжири", att:9, st:"kutilmoqda"},
- {date:"2026‑06‑10", district:"Сардоба", group:"Гулистон МФЙ, 2‑гуруҳ", topic:"Амалиёт: парник", att:8, st:"otkazildi"},
- {date:"2026‑06‑11", district:"Олот", group:"Боғишамол МФЙ, 1‑гуруҳ", topic:"Молиявий ҳисоб-китоб", att:10, st:"tasdiqlangan"},
- {date:"2026‑06‑12", district:"Мўйноқ", group:"Балиқчи МФЙ, 3‑гуруҳ", topic:"Қадоқлаш амалиёти", att:7, st:"tasdiqlangan"},
- {date:"2026‑06‑09", district:"Бекобод", group:"Дўстлик МФЙ, 2‑гуруҳ", topic:"Грант аризасини тайёрлаш", att:9, st:"otkazildi"},
-];
-
-/* грантлар (демо, давр‑5) */
-const GRANTS=[
- {period:5, district:"Каттақўрғон", who:"Гуруҳ «Ҳунарманд аёллар» (4 аёл)", type:"guruh", usd:14200, st:"golib"},
- {period:5, district:"Хазорасп", who:"З. Раҳимова", type:"yakka", usd:4800, st:"golib"},
- {period:5, district:"Қизириқ", who:"Гуруҳ «Парник‑агро» (3 аёл)", type:"guruh", usd:12600, st:"ozlashtirilmoqda"},
- {period:5, district:"Томди", who:"Г. Қурбонова", type:"yakka", usd:3900, st:"ariza"},
- {period:4, district:"Деҳқонобод", who:"М. Эшқулова", type:"yakka", usd:5000, st:"yakunlandi"},
-];
-
-/* автоматик огоҳлантириш қоидалари */
+/* --- автоматик огоҳлантириш қоидалари --- */
 function buildAlerts(){
   const A=[];
-  // R1: ҳисобот кечикди
-  REPORTS.filter(r=>r.st==="kechikdi").forEach(r=>A.push({sev:"bad", txt:`${r.who}: «${r.what}» муддати ${r.due} — ҳалигача топширилмаган`, src:"R1·ҳисобот"}));
-  // R2: жорий давр ўқитиш қамрови план−10% дан паст (вақт улушига нисбатан)
-  const p5=PERIODS[4]; const expect=PLAN_TRAIN*0.92; // давр охирлаб қолган
-  if(p5.trained<expect) A.push({sev:"warn", txt:`Давр‑5 ўқитиш қамрови ${p5.trained} та — режа траекториясидан ${Math.round(100-100*p5.trained/expect)}% орқада`, src:"R2·қамров"});
-  // R3: deliverable муддати ≤30 кун
-  DELIV.filter(d=>d.st==="jarayonda"||d.st==="rejada").forEach(d=>{
-    if(d.days>=-30 && d.days<=0) A.push({sev:"warn", txt:`${d.c}: «${d.d}» муддатига оз қолди (${d.due})`, src:"R3·муддат"});
-  });
-  DELIV.filter(d=>d.st==="kechikdi").forEach(d=>A.push({sev:"bad", txt:`${d.c}: «${d.d}» ${d.days} кун кечикди (муддат ${d.due})`, src:"R3·муддат"}));
-  // R4: MIS 24-соат қоидаси
-  TRAININGS.filter(t=>t.st==="kutilmoqda").forEach(t=>A.push({sev:"warn", txt:`MIS: ${t.district}, ${t.group} — ${t.date} тренинг натижалари 24 соат ичида киритилмади`, src:"R4·MIS"}));
-  // R5: грант ўзлаштириш суръати (давр-5)
-  if(p5.grants<PLAN_GRANT*0.4) A.push({sev:"ok", txt:`Давр‑5 грант танлови жараёнда: ${p5.grants}/${PLAN_GRANT} ғолиб аниқланди`, src:"R5·грант"});
-  // 1.2: соҳалар мақсади
-  const found=SECTORS.filter(s=>s.stage>=2).length;
-  A.push({sev:"ok", txt:`1.2: ${found} та соҳа таҳлил босқичидан ўтган (мақсад ≥7) — бажарилди`, src:"1.2"});
+  REPORTS.filter(r=>r.st==="kechikdi").forEach(r=>A.push({sev:"bad",txt:`${r.who}: «${r.what}» муддати ${r.due} — ҳалигача топширилмаган`,src:"Қоида 1 · ҳисобот"}));
+  const p5=PERIODS[4],expect=PLAN_TRAIN*0.92;
+  if(p5.trained<expect)A.push({sev:"warn",txt:`1.4: Давр‑5 ўқитиш қамрови ${fmt(p5.trained)} та — режа траекториясидан ${Math.round(100-100*p5.trained/expect)}% орқада`,src:"Қоида 2 · қамров"});
+  DELIV.filter(d=>d.st==="kechikdi").forEach(d=>A.push({sev:"bad",txt:`${d.c}: «${d.d}» ${d.days} кун кечикди (муддат ${d.due})`,src:"Қоида 3 · муддат"}));
+  DELIV.filter(d=>(d.st==="jarayonda"||d.st==="rejada")&&d.days>=-30&&d.days<=0).forEach(d=>A.push({sev:"warn",txt:`${d.c}: «${d.d}» муддатига оз қолди (${d.due})`,src:"Қоида 3 · муддат"}));
+  allTrainings().filter(t=>t.st==="kutilmoqda").forEach(t=>A.push({sev:"warn",txt:`MIS: ${t.district}, ${t.group} — ${t.date} тренинг натижалари 24 соат ичида киритилмади`,src:"Қоида 4 · MIS"}));
+  if(CS.unitsNow<CS.unitsPlan*0.7)A.push({sev:"warn",txt:`1.3: ўзлаштирилган технологиялар ${CS.unitsNow}/${CS.unitsPlan} — суръатни ошириш керак`,src:"Қоида 5 · 1.3"});
+  const incLive=INCUB.reduce((s,x)=>s+x.live,0);
+  if(incLive<22)A.push({sev:"ok",txt:`1.1: ${incLive}/22 инкубатор фаолиятда, ${INCUB.reduce((s,x)=>s+x.equip,0)} таси жиҳозланмоқда`,src:"1.1"});
+  if(FIN.subNow<FIN.subPlan*0.75)A.push({sev:"ok",txt:`2.1: ${FIN.subNow}/${FIN.subPlan} субкредит ажратилди — банклар билан суръат муҳокама қилинмоқда`,src:"2.1"});
+  A.push({sev:"ok",txt:`1.2: ${SECTORS.filter(s=>s.stage>=2).length} та соҳа таҳлилдан ўтган (мақсад ≥7) — бажарилди`,src:"1.2"});
   return A;
 }
 
-/* =================== LOCALSTORAGE =================== */
-function loadLS(){ try{return JSON.parse(localStorage.getItem(LSKEY))||{trainings:[],grants:[],alerts:[]}}catch(e){return {trainings:[],grants:[],alerts:[]}} }
-function saveLS(d){ localStorage.setItem(LSKEY, JSON.stringify(d)); }
+/* ============ LOCALSTORAGE ============ */
+function loadLS(){try{return JSON.parse(localStorage.getItem(LSKEY))||{trainings:[],grants:[],alerts:[]}}catch(e){return{trainings:[],grants:[],alerts:[]}}}
+function saveLS(d){localStorage.setItem(LSKEY,JSON.stringify(d))}
 let LS=loadLS();
-function allTrainings(){ return [...LS.trainings, ...TRAININGS]; }
-function allGrants(){ return [...LS.grants, ...GRANTS]; }
-function allAlerts(){ return [...LS.alerts.map(a=>({...a,src:"қўлда"})), ...buildAlerts()]; }
-
+function allTrainings(){return [...LS.trainings,...TRAININGS]}
+function allGrants(){return [...LS.grants,...GRANTS]}
+function allAlerts(){return [...LS.alerts.map(a=>({...a,src:"қўлда киритилган"})),...buildAlerts()]}
 function exportJSON(){
-  const blob=new Blob([JSON.stringify({exported:new Date().toISOString(),local:LS,demo:{PERIODS,DIST_STATS,SECTORS,CONTRACTS,REPORTS}},null,2)],{type:"application/json"});
-  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="qtr2-laog-export.json"; a.click();
+  const blob=new Blob([JSON.stringify({exported:new Date().toISOString(),local:LS},null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="qtr2-laog-export.json";a.click();
 }
 
-/* =================== РЕНДЕР =================== */
-const $=s=>document.querySelector(s);
-const fmt=n=>n.toLocaleString("ru-RU");
+/* ============ УМУМИЙ ЁРДАМЧИЛАР ============ */
 const stTag=s=>({
-  yakunlangan:'<span class="tag t-gray">Якунланган</span>', faol:'<span class="tag t-ok">Фаол</span>',
-  grant:'<span class="tag t-blue">Грант босқичи</span>', kechikdi:'<span class="tag t-bad">Кечикди</span>',
-  qabul:'<span class="tag t-ok">Қабул қилинди</span>', jarayonda:'<span class="tag t-blue">Жараёнда</span>',
-  rejada:'<span class="tag t-gray">Режада</span>', tasdiqlangan:'<span class="tag t-blue">Тасдиқланган</span>',
-  otkazildi:'<span class="tag t-ok">Ўтказилди ✓</span>', kutilmoqda:'<span class="tag t-warn">Натижа кутилмоқда</span>',
-  ariza:'<span class="tag t-gray">Ариза</span>', golib:'<span class="tag t-blue">Ғолиб</span>',
-  ozlashtirilmoqda:'<span class="tag t-warn">Ўзлаштирилмоқда</span>', yakunlandi:'<span class="tag t-ok">Якунланди</span>',
+ yakunlangan:'<span class="tag t-gray">Якунланган</span>',faol:'<span class="tag t-ok">Фаол</span>',
+ grant:'<span class="tag t-blue">Грант босқичи</span>',kechikdi:'<span class="tag t-bad">Кечикди</span>',
+ qabul:'<span class="tag t-ok">Қабул қилинди</span>',jarayonda:'<span class="tag t-blue">Жараёнда</span>',
+ rejada:'<span class="tag t-gray">Режада</span>',tasdiqlangan:'<span class="tag t-blue">Тасдиқланган</span>',
+ otkazildi:'<span class="tag t-ok">Ўтказилди ✓</span>',kutilmoqda:'<span class="tag t-warn">Натижа кутилмоқда</span>',
+ ariza:'<span class="tag t-gray">Ариза</span>',golib:'<span class="tag t-blue">Ғолиб</span>',
+ ozlashtirilmoqda:'<span class="tag t-warn">Ўзлаштирилмоқда</span>',yakunlandi:'<span class="tag t-ok">Якунланди</span>',
 }[s]||s);
-const pbar=(v,m,cls)=>{const p=Math.min(100,Math.round(100*v/m));return `<div class="bar"><i class="${cls||(p>=90?"g":p>=60?"":"w")}" style="width:${p}%"></i></div><span class="mini">${p}%</span>`};
+const pbar=(v,m,h)=>{const p=Math.min(100,Math.round(100*v/m));return `<div class="flexh" style="gap:8px;flex-wrap:nowrap"><div class="bar" style="${h?`height:${h}px;`:""}flex:1"><i class="${p>=90?"g":p>=60?"":"w"}" style="width:${p}%"></i></div><span class="mini" style="min-width:34px;text-align:right">${p}%</span></div>`};
+const pipeRow=(P,stage)=>`<div class="pl">${P.map((p,i)=>`<span class="step ${i<stage?"done":i===stage?"cur":""}">${p}</span>`).join("")}</div>`;
 
+/* ============ РЕНДЕР ============ */
 function renderDash(){
-  $("#todayLab").textContent="Ҳолат: "+TODAY.toLocaleDateString("uz-Cyrl-UZ",{day:"numeric",month:"long",year:"numeric"});
-  const tr=PERIODS.reduce((s,p)=>s+p.trained,0), gr=PERIODS.reduce((s,p)=>s+p.grants,0),
-        usd=PERIODS.reduce((s,p)=>s+p.gUsd,0), al=allAlerts(), bad=al.filter(a=>a.sev==="bad").length;
+  $("#todayLab").textContent="Ҳолат санаси: "+TODAY.toLocaleDateString("uz-Cyrl-UZ",{day:"numeric",month:"long",year:"numeric"})+".";
+  const tr=PERIODS.reduce((s,p)=>s+p.trained,0);
+  const al=allAlerts(),bad=al.filter(a=>a.sev==="bad").length;
+  const disb=128.4; // демо
   $("#kpiRow").innerHTML=`
-   <div class="card kpi b"><div class="lab">Ўқитилган аёллар</div><div class="val">${fmt(tr)}</div><div class="det">мақсад: ${fmt(TOT_TRAIN)} · ${Math.round(100*tr/TOT_TRAIN)}%</div></div>
-   <div class="card kpi g"><div class="lab">Берилган грантлар</div><div class="val">${fmt(gr)}</div><div class="det">мақсад: ${fmt(TOT_GRANT)} · $${usd.toFixed(2)} млн</div></div>
-   <div class="card kpi c"><div class="lab">1.2 соҳалар</div><div class="val">${SECTORS.filter(s=>s.stage>=2).length}<span style="font-size:15px;color:var(--mut)">/7+</span></div><div class="det">таҳлилдан ўтган соҳалар</div></div>
-   <div class="card kpi o"><div class="lab">Очиқ огоҳлантириш</div><div class="val">${al.length}</div><div class="det">${bad} та юқори даражали</div></div>
-   <div class="card kpi b"><div class="lab">Қамров</div><div class="val">20</div><div class="det">туман · 200 маҳалла · 4 округ</div></div>`;
+   <div class="card kpi"><div class="lab">Лойиҳа қарзи</div><div class="val">$200<small> млн</small></div><div class="det">ХТТБ + ХТУ · 2022–2026</div></div>
+   <div class="card kpi c"><div class="lab">Ўзлаштирилди</div><div class="val">$${disb}<small> млн</small></div><div class="det">${Math.round(100*disb/200)}% · демо кўрсаткич</div></div>
+   <div class="card kpi g"><div class="lab">Ўқитилган аёллар</div><div class="val">${fmt(tr)}</div><div class="det">мақсад: ${fmt(TOT_TRAIN)}</div></div>
+   <div class="card kpi y"><div class="lab">Субкредитлар</div><div class="val">${FIN.subNow}</div><div class="det">мақсад: ${FIN.subPlan} та лойиҳа</div></div>
+   <div class="card kpi o"><div class="lab">Огоҳлантириш</div><div class="val">${al.length}</div><div class="det">${bad} та юқори даражали</div></div>`;
 
-  /* даврлар бар-чарт (SVG) */
-  const W=460,H=190,bw=56,gap=28,x0=34;
-  let bars="";
-  PERIODS.forEach((p,i)=>{
-    const x=x0+i*(bw+gap), hP=130, hF=Math.round(130*p.trained/2200);
-    bars+=`<rect x="${x}" y="${160-hP*2000/2200}" width="${bw}" height="${hP*2000/2200}" fill="#dbe5ee" rx="4"/>
-           <rect x="${x+6}" y="${160-hF}" width="${bw-12}" height="${hF}" fill="var(--wb-blue)" rx="4"/>
-           <text x="${x+bw/2}" y="${152-hF}" text-anchor="middle" font-size="11" font-weight="700" fill="#002244">${fmt(p.trained)}</text>
-           <text x="${x+bw/2}" y="178" text-anchor="middle" font-size="11" fill="#5f6b7a">Д‑${p.n}</text>`;
+  /* бюджет доираси */
+  const colors=["#0071bc","#009fda","#54b8e3","#7bc9a4","#c9a227","#8a99ad","#5a6b80"];
+  const tot=SUBC.reduce((s,x)=>s+x.usd,0);
+  let acc=0,segs="";
+  SUBC.forEach((x,i)=>{
+    const a0=acc/tot*2*Math.PI-Math.PI/2;acc+=x.usd;const a1=acc/tot*2*Math.PI-Math.PI/2;
+    const large=(a1-a0)>Math.PI?1:0,R=80,r0=46,cx=100,cy=100;
+    const p=[ [cx+R*Math.cos(a0),cy+R*Math.sin(a0)],[cx+R*Math.cos(a1),cy+R*Math.sin(a1)],[cx+r0*Math.cos(a1),cy+r0*Math.sin(a1)],[cx+r0*Math.cos(a0),cy+r0*Math.sin(a0)] ];
+    segs+=`<path d="M${p[0]} A${R},${R} 0 ${large} 1 ${p[1]} L${p[2]} A${r0},${r0} 0 ${large} 0 ${p[3]} Z" fill="${colors[i]}" stroke="#fff" stroke-width="1.5"/>`;
   });
-  $("#chPeriods").innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${bars}</svg>`;
+  $("#chBudget").innerHTML=`
+   <svg viewBox="0 0 200 200" style="width:185px;flex:0 0 auto">${segs}
+     <text x="100" y="95" text-anchor="middle" font-size="21" font-weight="800" fill="#00203f">$${tot.toFixed(1)}</text>
+     <text x="100" y="113" text-anchor="middle" font-size="10.5" fill="#64748b">млн · 7 субкомп.</text></svg>
+   <div style="flex:1;min-width:220px">${SUBC.map((x,i)=>`
+     <div style="display:flex;align-items:center;gap:8px;padding:4px 0;font-size:13px">
+       <b style="width:11px;height:11px;border-radius:3px;background:${colors[i]};flex:0 0 auto"></b>
+       <span style="flex:1"><b>${x.num}</b> ${x.name}</span>
+       <span class="num" style="font-weight:700">$${x.usd}</span></div>`).join("")}</div>`;
 
-  /* мақсадлар прогресси */
-  const goals=[["Аёлларни ўқитиш",tr,TOT_TRAIN],["Грантлар сони",gr,TOT_GRANT],["Кучсиз соҳалар (1.2)",SECTORS.filter(s=>s.stage>=2).length,7],["Даврлар",4.8,5]];
+  /* мақсадлар */
+  const goals=[
+   ["Аёлларни ўқитиш (1.4)",tr,TOT_TRAIN],["Грантлар (1.4)",PERIODS.reduce((s,p)=>s+p.grants,0),TOT_GRANT],
+   ["Инкубаторлар (1.1)",INCUB.reduce((s,x)=>s+x.live,0),22],["Технологиялар (1.3)",CS.unitsNow,CS.unitsPlan],
+   ["Субкредитлар (2.1)",FIN.subNow,FIN.subPlan],["Кучсиз соҳалар (1.2)",SECTORS.filter(s=>s.stage>=2).length,7],
+  ];
   $("#chGoals").innerHTML=goals.map(([n,v,m])=>{
     const p=Math.min(100,Math.round(100*v/m));
-    return `<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><b>${n}</b><span class="mini">${typeof v==="number"&&v%1?v:fmt(Math.round(v))} / ${fmt(m)}</span></div><div class="bar" style="height:12px"><i class="${p>=90?"g":p>=60?"":"w"}" style="width:${p}%"></i></div></div>`;
+    return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><b>${n}</b><span class="mini">${fmt(v)} / ${fmt(m)}</span></div><div class="bar" style="height:11px"><i class="${p>=90?"g":p>=60?"":"w"}" style="width:${p}%"></i></div></div>`;
   }).join("");
 
-  /* округлар */
-  const rows=OKRUGS.map(o=>{
-    const ds=DIST_STATS.filter(d=>d.okrug===o.n);
-    const tr2=ds.reduce((s,d)=>s+d.tr,0), gr2=ds.reduce((s,d)=>s+d.gr,0);
-    return `<tr><td><b>${o.n}-округ</b><div class="mini">${o.regions.map(r=>r[0]).join(", ")}</div></td>
-      <td class="num">${ds.length}</td><td class="num">${fmt(tr2)}</td><td class="num">${gr2}</td>
-      <td>${pbar(tr2, ds.length*500)}</td></tr>`;
-  }).join("");
-  $("#tOkrug").innerHTML=`<tr><th>Округ</th><th class="num">Туман</th><th class="num">Ўқитилган</th><th class="num">Грант</th><th>Қамров</th></tr>${rows}`;
+  $("#tScProg").innerHTML=`<tr><th>№</th><th>Субкомпонент</th><th class="num">Бюджет</th><th style="min-width:150px">Бажарилиши</th></tr>`+
+   SUBC.map(x=>`<tr><td><b>${x.num}</b></td><td>${x.name}<div class="mini">${x.stage}</div></td><td class="num">$${x.usd} млн</td><td>${pbar(x.prog,100)}</td></tr>`).join("");
 
-  $("#dashAlerts").innerHTML=allAlerts().slice(0,5).map(a=>
-    `<div class="alert-it"><span class="dot d-${a.sev}"></span><div>${a.txt}<div class="mini">${a.src}</div></div></div>`).join("");
+  $("#dashAlerts").innerHTML=allAlerts().slice(0,5).map(a=>`<div class="alert-it"><span class="dot d-${a.sev}"></span><div>${a.txt}<div class="mini">${a.src}</div></div></div>`).join("");
 }
 
 function renderSubc(){
-  const tr=PERIODS.reduce((s,p)=>s+p.trained,0);
-  const cards=[
-   {t:"1.2 — Ҳамкорликни ривожлантириш ва сотиш занжирлари", b:"$0.72 млн", st:"faol",
-    rows:[["Мақсад","≥7 кучсиз соҳани аниқлаш, сотиш занжири"],["Ижрочи","Маркетинг консультанти (SC‑1.2)"],["Босқич",`${SECTORS.filter(s=>s.stage>=2).length} соҳа таҳлилда/тайёр`],["Кейинги қадам","Кузги ярмарка (4 ҳудуд)"]], p:["sect","Модулни очиш →"]},
-   {t:"1.4 — Аёллар тадбиркорлигини ривожлантириш", b:"грант фонди ~$6 млн (демо)", st:"faol",
-    rows:[["Мақсад","10 000 аёл · 1 000 грант · 5 давр"],["Ижрочилар","БТҚБТ ×4 округ + CMP (36 ой)"],["Босқич",`Давр‑5 (грант) · жами ${fmt(tr)} аёл ўқитилди`],["Кейинги қадам","Давр‑5 грант танлови якуни"]], p:["women","Модулни очиш →"]},
-   {t:"БИММ — Бизнес инкубация модули", b:"ТЗ кутилмоқда", st:"rejada",
-    rows:[["Мақсад","ТЗ (BIH TORs_БИММ) тақдим этилгач тўлдирилади"],["Ижрочи","—"],["Босқич","Тайёргарлик"],["Кейинги қадам","ТЗ файлини юклаш"]], p:null},
-  ];
-  $("#subcCards").innerHTML=cards.map(c=>`<div class="card">
-    <div class="flexh" style="justify-content:space-between"><h3 style="margin:0">${c.t}</h3>${stTag(c.st)}</div>
-    <div class="mini" style="margin:4px 0 10px">Бюджет: <b>${c.b}</b></div>
-    <table style="min-width:0">${c.rows.map(r=>`<tr><td class="mini" style="width:38%">${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>
-    ${c.p?`<div class="mt no-print"><button class="btn sec" onclick="go('${c.p[0]}')">${c.p[1]}</button></div>`:""}
-  </div>`).join("");
+  const k1=SUBC.filter(x=>x.comp===1),k2=SUBC.filter(x=>x.comp===2);
+  const card=x=>`<div class="card sc-card">
+    <div class="sc-head"><div class="sc-num ${x.comp===2?"k2":""}">${x.num}</div>
+      <div><h3>${x.name}</h3><div class="sc-bud">Бюджет: $${x.usd} млн ${stTag(x.st)}</div></div></div>
+    <div class="sc-goal">${x.goal}</div>
+    <div class="sc-meta"><span>Ижрочи: <b>${x.exec}</b></span><span>Жорий босқич: <b>${x.stage}</b></span></div>
+    ${pbar(x.prog,100,10)}
+    <div class="sc-foot mt no-print"><button class="btn sec" onclick="go('${x.page}')">Бўлимни очиш →</button></div>
+  </div>`;
+  $("#subcCards").innerHTML=
+   `<div style="grid-column:1/-1"><h3 style="color:var(--navy);font-size:16px">1-компонент · Тадбиркорликни ривожлантириш — $20.0 млн</h3></div>`+
+   k1.map(card).join("")+
+   `<div style="grid-column:1/-1" class="mt"><h3 style="color:var(--navy);font-size:16px">2-компонент · Молиялаштириш — $175.8 млн</h3></div>`+
+   k2.map(card).join("");
 }
 
-function renderWomen(){
-  const tr=PERIODS.reduce((s,p)=>s+p.trained,0), gr=PERIODS.reduce((s,p)=>s+p.grants,0);
-  const grp=DIST_STATS.reduce((s,d)=>s+d.grp,0);
-  $("#wKpis").innerHTML=`
-   <div class="card kpi b"><div class="lab">Жами ўқитилган</div><div class="val">${fmt(tr)}</div><div class="det">/ ${fmt(TOT_TRAIN)}</div></div>
-   <div class="card kpi g"><div class="lab">Грантлар</div><div class="val">${fmt(gr)}</div><div class="det">/ ${fmt(TOT_GRANT)} (200×5 давр)</div></div>
-   <div class="card kpi c"><div class="lab">Гуруҳлар</div><div class="val">${fmt(grp)}</div><div class="det">6–10 аёлдан, маҳалла ичида</div></div>
-   <div class="card kpi o"><div class="lab">Жорий давр</div><div class="val">Д‑5</div><div class="det">грант босқичи (6‑ой)</div></div>`;
-
-  $("#tPeriods").innerHTML=`<tr><th>Давр</th><th>Муддат</th><th class="num">Ўқитилган (план 2000)</th><th>Бажарилиши</th><th class="num">Грант (план 200)</th><th class="num">Грант $млн</th><th>Ҳолат</th></tr>`+
-   PERIODS.map(p=>`<tr><td><b>Давр‑${p.n}</b></td><td>${p.span}</td><td class="num">${fmt(p.trained)}</td><td>${pbar(p.trained,PLAN_TRAIN)}</td><td class="num">${p.grants}</td><td class="num">${p.gUsd.toFixed(2)}</td><td>${stTag(p.st)}</td></tr>`).join("");
-
-  $("#tTrain").innerHTML=`<tr><th>Сана</th><th>Туман</th><th>Гуруҳ</th><th>Мавзу</th><th class="num">Ишт.</th><th>Ҳолат</th></tr>`+
-   allTrainings().map(t=>`<tr><td>${t.date}</td><td>${t.district}</td><td>${t.group}</td><td>${t.topic}</td><td class="num">${t.att}</td><td>${stTag(t.st)}</td></tr>`).join("");
-
-  $("#tGrants").innerHTML=`<tr><th>Давр</th><th>Туман</th><th>Олувчи</th><th>Тури</th><th class="num">USD</th><th>Ҳолат</th></tr>`+
-   allGrants().map(g=>`<tr><td>Д‑${g.period}</td><td>${g.district}</td><td>${g.who}</td><td>${g.type==="guruh"?"Гуруҳ":"Якка"}</td><td class="num">${fmt(+g.usd)}</td><td>${stTag(g.st)}</td></tr>`).join("");
+function renderInc(){
+  const live=INCUB.reduce((s,x)=>s+x.live,0),equip=INCUB.reduce((s,x)=>s+x.equip,0),
+        tender=INCUB.reduce((s,x)=>s+x.tender,0),proj=INCUB.reduce((s,x)=>s+x.proj,0);
+  $("#iKpis").innerHTML=`
+   <div class="card kpi g"><div class="lab">Фаолиятда</div><div class="val">${live}<small> / 22</small></div><div class="det">бизнес-инкубатор</div></div>
+   <div class="card kpi"><div class="lab">Жиҳозланмоқда</div><div class="val">${equip}</div><div class="det">бино ва жиҳозлар</div></div>
+   <div class="card kpi c"><div class="lab">Танлов босқичида</div><div class="val">${tender}</div><div class="det">ташаббускор танланмоқда</div></div>
+   <div class="card kpi y"><div class="lab">Йўлга қўйилган лойиҳалар</div><div class="val">${fmt(proj)}</div><div class="det">мақсад: ҳар инкубаторда йилига 46 та</div></div>`;
+  $("#tInc").innerHTML=`<tr><th>Ҳудуд</th><th class="num">Режа</th><th class="num">Фаолиятда</th><th class="num">Жиҳозланмоқда</th><th class="num">Танловда</th><th class="num">Лойиҳалар (йил)</th><th style="min-width:140px">Йиллик мақсадга</th></tr>`+
+   INCUB.map(x=>`<tr><td><b>${x.region}</b></td><td class="num">${x.plan}</td><td class="num">${x.live}</td><td class="num">${x.equip||"—"}</td><td class="num">${x.tender||"—"}</td><td class="num">${fmt(x.proj)}</td><td>${x.target?pbar(x.proj,x.target):'<span class="mini">—</span>'}</td></tr>`).join("");
+  $("#tIncRule").innerHTML=`<tr><th>Кўмак тури</th><th>Шартлар</th></tr>
+   <tr><td><b>Бино ва жиҳозлар</b></td><td>Кўмакнинг 10% гача — бинони замонавий дизайнлаштириш, компьютер ва мебель харидига</td></tr>
+   <tr><td><b>Мутахассислар</b></td><td>Кўмакнинг 90% дан ортиғи — 6 та доимий маҳаллий мутахассис иш ҳақи 2 йилгача лойиҳадан қопланади</td></tr>
+   <tr><td><b>Халқаро тажриба</b></td><td>Ҳар бир ҳудудга лойиҳа ҳисобидан 1 та халқаро мутахассис жалб этилади</td></tr>
+   <tr><td><b>Кутилаётган натижа</b></td><td>Ҳар инкубатор йилига камида 46 бизнес-лойиҳа; йилига камида +$500 минг солиқ солинадиган айланма</td></tr>`;
 }
 
 function renderSect(){
-  const done=SECTORS.filter(s=>s.stage>=2).length, agg=SECTORS.filter(s=>s.stage>=5).length;
-  const subj=SECTORS.reduce((s,x)=>s+x.subj,0);
+  const done=SECTORS.filter(s=>s.stage>=2).length,agg=SECTORS.filter(s=>s.stage>=5).length,
+        subj=SECTORS.reduce((s,x)=>s+x.subj,0);
   $("#sKpis").innerHTML=`
-   <div class="card kpi c"><div class="lab">Соҳалар (мақсад ≥7)</div><div class="val">${done}</div><div class="det">таҳлилдан ўтган</div></div>
-   <div class="card kpi b"><div class="lab">Таҳлилдаги субъектлар</div><div class="val">${fmt(subj)}</div><div class="det">ҳар соҳада ≥50 талаби</div></div>
-   <div class="card kpi g"><div class="lab">Агрегатор лойиҳалар</div><div class="val">${agg}</div><div class="det">сотиш занжири яратилган</div></div>
-   <div class="card kpi o"><div class="lab">Бюджет</div><div class="val">$0.72М</div><div class="det">субкомпонент ажратмаси</div></div>`;
-
+   <div class="card kpi c"><div class="lab">Соҳалар</div><div class="val">${done}<small> / ≥7</small></div><div class="det">таҳлилдан ўтган</div></div>
+   <div class="card kpi"><div class="lab">Ўрганилган субъектлар</div><div class="val">${fmt(subj)}</div><div class="det">талаб: ҳар соҳада камида 50 та</div></div>
+   <div class="card kpi g"><div class="lab">Сотиш занжири яратилди</div><div class="val">${agg}</div><div class="det">агрегатор лойиҳалар</div></div>
+   <div class="card kpi y"><div class="lab">Янги шартномалар</div><div class="val">17<small> / ≥20</small></div><div class="det">сотиш занжири орқали</div></div>`;
   $("#tSect").innerHTML=`<tr><th>Соҳа</th><th class="num">Субъектлар</th><th>Босқич</th></tr>`+
-   SECTORS.map(s=>{
-     const steps=PIPE.map((p,i)=>`<span class="step ${i<s.stage?"done":i===s.stage?"cur":""}">${p}</span>`).join("");
-     return `<tr><td>${s.name}</td><td class="num">${s.subj}</td><td><div class="pl">${steps}</div></td></tr>`;
-   }).join("");
+   SECTORS.map(s=>`<tr><td>${s.name}</td><td class="num">${s.subj}</td><td>${pipeRow(PIPE12,s.stage)}</td></tr>`).join("");
+}
+
+function renderCs(){
+  $("#cKpis").innerHTML=`
+   <div class="card kpi c"><div class="lab">Технология турлари</div><div class="val">${CS.typesNow}<small> / ${CS.typesPlan}</small></div><div class="det">аниқланган ва асосланган</div></div>
+   <div class="card kpi g"><div class="lab">Ўзлаштирилди</div><div class="val">${CS.unitsNow}<small> / ${CS.unitsPlan}</small></div><div class="det">ўрнатилган технологиялар</div></div>
+   <div class="card kpi"><div class="lab">Стартаплар</div><div class="val">${CS.startNow}<small> / ${CS.startPlan}</small></div><div class="det">жорий қилинган</div></div>
+   <div class="card kpi y"><div class="lab">Янги иш ўринлари</div><div class="val">${fmt(CS.jobsNow)}<small> / ${fmt(CS.jobsPlan)}</small></div><div class="det">ресурс тежами мақсади: ≥10%</div></div>`;
+  $("#tCs").innerHTML=`<tr><th>Технология</th><th class="num">Ўзлаштирилди (дона)</th><th>Босқич</th></tr>`+
+   TECHS.map(t=>`<tr><td>${t.name}</td><td class="num">${t.units}</td><td>${pipeRow(PIPE13,t.stage)}</td></tr>`).join("");
+  $("#tCsCons").innerHTML=`<tr><th>Округ</th><th>Ҳолат</th><th>Изоҳ</th></tr>`+
+   CS_CONS.map(c=>`<tr><td><b>${c.okrug}</b></td><td>${stTag(c.st)}</td><td class="mini">${c.note}</td></tr>`).join("");
+}
+
+function renderWomen(){
+  const tr=PERIODS.reduce((s,p)=>s+p.trained,0),gr=PERIODS.reduce((s,p)=>s+p.grants,0),
+        grp=DIST_STATS.reduce((s,d)=>s+d.grp,0),usd=PERIODS.reduce((s,p)=>s+p.gUsd,0);
+  $("#wKpis").innerHTML=`
+   <div class="card kpi"><div class="lab">Ўқитилган аёллар</div><div class="val">${fmt(tr)}<small> / ${fmt(TOT_TRAIN)}</small></div><div class="det">${Math.round(100*tr/TOT_TRAIN)}% бажарилди</div></div>
+   <div class="card kpi g"><div class="lab">Грантлар</div><div class="val">${fmt(gr)}<small> / ${fmt(TOT_GRANT)}</small></div><div class="det">$${usd.toFixed(2)} млн ажратилди</div></div>
+   <div class="card kpi c"><div class="lab">Гуруҳлар</div><div class="val">${fmt(grp)}</div><div class="det">ҳар бири 6–10 аёл, ўз маҳалласида</div></div>
+   <div class="card kpi o"><div class="lab">Жорий давр</div><div class="val">Д‑5</div><div class="det">грант танлови босқичи (6-ой)</div></div>`;
+  $("#tPeriods").innerHTML=`<tr><th>Давр</th><th>Муддат</th><th class="num">Ўқитилган</th><th style="min-width:140px">Режага нисбатан</th><th class="num">Грантлар</th><th class="num">Грант, $ млн</th><th>Ҳолат</th></tr>`+
+   PERIODS.map(p=>`<tr><td><b>Давр‑${p.n}</b></td><td>${p.span}</td><td class="num">${fmt(p.trained)}</td><td>${pbar(p.trained,PLAN_TRAIN)}</td><td class="num">${p.grants}</td><td class="num">${p.gUsd.toFixed(2)}</td><td>${stTag(p.st)}</td></tr>`).join("");
+  $("#tTrain").innerHTML=`<tr><th>Сана</th><th>Туман</th><th>Гуруҳ</th><th>Мавзу</th><th class="num">Ишт.</th><th>Ҳолат</th></tr>`+
+   allTrainings().map(t=>`<tr><td>${t.date}</td><td>${t.district}</td><td>${t.group}</td><td>${t.topic}</td><td class="num">${t.att}</td><td>${stTag(t.st)}</td></tr>`).join("");
+  $("#tGrants").innerHTML=`<tr><th>Давр</th><th>Туман</th><th>Олувчи</th><th>Тури</th><th class="num">$</th><th>Ҳолат</th></tr>`+
+   allGrants().map(g=>`<tr><td>Д‑${g.period}</td><td>${g.district}</td><td>${g.who}</td><td>${g.type==="guruh"?"Гуруҳ":"Якка"}</td><td class="num">${fmt(+g.usd)}</td><td>${stTag(g.st)}</td></tr>`).join("");
+}
+
+function renderFin(){
+  const given=BANKS.reduce((s,b)=>s+b.given,0);
+  $("#fKpis").innerHTML=`
+   <div class="card kpi"><div class="lab">Кредит линияси</div><div class="val">$146<small> млн</small></div><div class="det">$${given.toFixed(1)} млн банкларга ўтказилди</div></div>
+   <div class="card kpi g"><div class="lab">Субкредитлар</div><div class="val">${FIN.subNow}<small> / ${FIN.subPlan}</small></div><div class="det">молияланган лойиҳалар</div></div>
+   <div class="card kpi c"><div class="lab">Кафолатлар</div><div class="val">${FIN.guarNow}</div><div class="det">$${FIN.guarUsd} млн қамраб олинди</div></div>
+   <div class="card kpi y"><div class="lab">Жамғарма транши</div><div class="val">$${FIN.tranche}<small> млн</small></div><div class="det">биринчи транш ўтказилган</div></div>`;
+  $("#tBanks").innerHTML=`<tr><th>Банк</th><th class="num">Ажратма, $ млн</th><th class="num">Ўтказилди, $ млн</th><th class="num">Субкредитлар</th><th style="min-width:140px">Ўзлаштириш</th><th>Ҳолат</th></tr>`+
+   BANKS.map(b=>`<tr><td><b>${b.bank}</b></td><td class="num">${b.usd}</td><td class="num">${b.given}</td><td class="num">${b.loans}</td><td>${pbar(b.given,b.usd)}</td><td>${stTag(b.st)}</td></tr>`).join("");
+  $("#tTerms").innerHTML=`<tr><th>Субкредит тури</th><th>Шартлар</th></tr>
+   <tr><td><b>$50 минггача</b></td><td>Жами линиянинг 30% квотаси · 10 йилгача · имтиёзли давр 3 йилгача</td></tr>
+   <tr><td><b>$500 минггача</b></td><td>Жами линиянинг 70% квотаси · 10 йилгача · имтиёзли давр 3 йилгача</td></tr>
+   <tr><td><b>Айланма маблағ, $125 минггача</b></td><td>Линиянинг 20% идан ошмайди · 24 ойгача · имтиёзли давр 9 ойгача</td></tr>
+   <tr><td><b>Соҳалар</b></td><td>Қишлоқ хўжалиги, озиқ-овқат қайта ишлаш, кичик ишлаб чиқариш, тўқимачилик, ҳунармандчилик, хизматлар, туризм</td></tr>`;
+  $("#tRates").innerHTML=`<tr><th>Босқич</th><th>Сўмда</th><th>АҚШ долларида</th></tr>
+   <tr><td>Давлатдан банкларга</td><td>ўртача 14% <div class="mini">Марказий банк ставкасига боғлиқ</div></td><td>ўртача 7% <div class="mini">6 ойлик SOFR бўйича</div></td></tr>
+   <tr><td>Банклардан тадбиркорга</td><td>ўртача 20% <div class="mini">банк маржаси ~6%</div></td><td>ўртача 12% <div class="mini">банк маржаси ~5%</div></td></tr>`;
+  $("#tGuar").innerHTML=`<div class="tw"><table style="min-width:0">
+   <tr><td class="mini" style="width:46%">Мақсад</td><td>Гарови етишмайдиган тадбиркор кредитига давлат жамғармаси кафиллиги</td></tr>
+   <tr><td class="mini">Кафиллик миқдори</td><td>Кредитнинг <b>50% гача</b>, лекин <b>2.5 млрд сўмдан</b> ошмайди</td></tr>
+   <tr><td class="mini">Кутилган натижа</td><td>$58.6 млн молиялаштириш кафолатлар орқали</td></tr>
+   <tr><td class="mini">Жорий ҳолат</td><td>${FIN.guarNow} та кафолат · $${FIN.guarUsd} млн ${pbar(FIN.guarUsd,FIN.guarPlan)}</td></tr></table></div>`;
+  $("#tTa").innerHTML=`<div class="tw"><table style="min-width:0">
+   <tr><td class="mini" style="width:46%">Мақсад</td><td>Банклар ва жамғармани инновацион ҳамда рақамли молиялаш усулларига ўқитиш</td></tr>
+   <tr><td class="mini">Қилинган ишлар</td><td>Эҳтиёж таҳлили якунланди · ўқув дастури тасдиқланди · 2 та модул ўтказилди</td></tr>
+   <tr><td class="mini">Навбатдаги қадам</td><td>Рақамли молиялаш тренинги (3-модул) — 2026‑06‑25 гача</td></tr></table></div>`;
 }
 
 function renderProc(){
-  $("#tProc").innerHTML=`<tr><th>Код</th><th>Ижрочи</th><th>Қамров</th><th>Муддат</th><th>Бошланиши</th><th>Тугаши</th><th class="num">Қиймат</th><th>Ҳолат</th></tr>`+
-   CONTRACTS.map(c=>`<tr><td><b>${c.code}</b></td><td>${c.who}</td><td>${c.scope}</td><td>${c.t}</td><td>${c.from}</td><td>${c.to}</td><td class="num">${c.sum}</td><td>${stTag(c.st)}</td></tr>`).join("");
-  $("#tDeliv").innerHTML=`<tr><th>Шартнома</th><th>Deliverable</th><th>Муддат</th><th>Ҳолат</th></tr>`+
+  $("#tProc").innerHTML=`<tr><th>Код</th><th>Ижрочи</th><th>Иш мазмуни</th><th>Муддат</th><th>Даври</th><th class="num">Қиймат</th><th>Ҳолат</th></tr>`+
+   CONTRACTS.map(c=>`<tr><td><b>${c.code}</b></td><td>${c.who}</td><td>${c.scope}</td><td>${c.t}</td><td>${c.from} — ${c.to}</td><td class="num">${c.sum}</td><td>${stTag(c.st)}</td></tr>`).join("");
+  $("#tDeliv").innerHTML=`<tr><th>Шартнома</th><th>Топшириладиган иш</th><th>Муддат</th><th>Ҳолат</th></tr>`+
    DELIV.map(d=>`<tr><td><b>${d.c}</b></td><td>${d.d}</td><td>${d.due}</td><td>${stTag(d.st)}${d.st==="kechikdi"?` <span class="mini">(+${d.days} кун)</span>`:""}</td></tr>`).join("");
 }
 
 function renderReg(){
-  $("#tReg").innerHTML=`<tr><th>Округ</th><th>Ҳудуд</th><th>Туман</th><th class="num">Маҳалла</th><th class="num">Гуруҳ</th><th class="num">Ўқитилган</th><th class="num">Грант</th><th>Қамров</th></tr>`+
+  $("#tRegSum").innerHTML=`<tr><th>Ҳудуд</th><th class="num">Инкубаторлар (1.1)</th><th class="num">Технологиялар (1.3)</th><th class="num">1.4 туманлари</th></tr>`+
+   REGIONS10.map((r,i)=>{
+     const inc=INCUB[i]; const tech=Math.round(18+wig(i,5)*22);
+     const d14=DISTRICTS.filter(d=>d.region===r||(r==="Қорақалпоғистон Р."&&d.region==="Қорақалпоғистон Р.")).length;
+     return `<tr><td><b>${r}</b></td><td class="num">${inc.live}/${inc.plan}</td><td class="num">${tech}</td><td class="num">${d14||"—"}</td></tr>`;
+   }).join("");
+  $("#tReg").innerHTML=`<tr><th>Округ</th><th>Ҳудуд</th><th>Туман</th><th class="num">Маҳалла</th><th class="num">Гуруҳ</th><th class="num">Ўқитилган</th><th class="num">Грант</th><th style="min-width:130px">Қамров</th></tr>`+
    DIST_STATS.map(d=>`<tr><td>${d.okrug}-округ</td><td>${d.region}</td><td><b>${d.district}</b></td><td class="num">${d.mah}</td><td class="num">${d.grp}</td><td class="num">${fmt(d.tr)}</td><td class="num">${d.gr}</td><td>${pbar(d.tr,500)}</td></tr>`).join("");
 }
 
@@ -568,13 +775,13 @@ function renderRep(){
 
 function renderAlerts(){
   const A=allAlerts();
-  $("#alCnt").textContent=A.length;
+  $("#alCnt").textContent=A.filter(a=>a.sev!=="ok").length;
   $("#alList").innerHTML=A.map(a=>`<div class="alert-it"><span class="dot d-${a.sev}"></span><div>${a.txt}<div class="mini">${a.src}</div></div></div>`).join("")||'<div class="mini">Огоҳлантириш йўқ</div>';
 }
 
-function renderAll(){renderDash();renderSubc();renderWomen();renderSect();renderProc();renderReg();renderRep();renderAlerts();}
+function renderAll(){renderDash();renderSubc();renderInc();renderSect();renderCs();renderWomen();renderFin();renderProc();renderReg();renderRep();renderAlerts();}
 
-/* =================== НАВИГАЦИЯ =================== */
+/* ============ НАВИГАЦИЯ ============ */
 function go(p){
   document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));
   document.querySelectorAll(".nv[data-p]").forEach(x=>x.classList.toggle("on",x.dataset.p===p));
@@ -585,24 +792,24 @@ function go(p){
 document.querySelectorAll(".nv[data-p]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.p)));
 $("#burger").addEventListener("click",()=>$("#nav").classList.toggle("open"));
 
-/* =================== ФОРМАЛАР =================== */
-function fillDistricts(sel){ sel.innerHTML=DISTRICTS.map(d=>`<option>${d.district}</option>`).join(""); }
-document.querySelectorAll('select[name="district"]').forEach(fillDistricts);
-
+/* ============ ФОРМАЛАР ============ */
+document.querySelectorAll('select[name="district"]').forEach(sel=>{
+  sel.innerHTML=DISTRICTS.map(d=>`<option>${d.district}</option>`).join("");
+});
 $("#fTrain").addEventListener("submit",e=>{
-  e.preventDefault(); const f=new FormData(e.target);
+  e.preventDefault();const f=new FormData(e.target);
   LS.trainings.unshift({date:f.get("date"),district:f.get("district"),group:f.get("group"),topic:f.get("topic"),att:+f.get("att"),st:f.get("st")});
-  saveLS(LS); renderAll(); e.target.reset(); go("women");
+  saveLS(LS);renderAll();e.target.reset();go("women");
 });
 $("#fGrant").addEventListener("submit",e=>{
-  e.preventDefault(); const f=new FormData(e.target);
+  e.preventDefault();const f=new FormData(e.target);
   LS.grants.unshift({period:+f.get("period"),district:f.get("district"),who:f.get("who"),type:f.get("type"),usd:+f.get("usd"),st:f.get("st")});
-  saveLS(LS); renderAll(); e.target.reset(); go("women");
+  saveLS(LS);renderAll();e.target.reset();go("women");
 });
 $("#fAlert").addEventListener("submit",e=>{
-  e.preventDefault(); const f=new FormData(e.target);
+  e.preventDefault();const f=new FormData(e.target);
   LS.alerts.unshift({sev:f.get("sev"),txt:f.get("txt")});
-  saveLS(LS); renderAll(); e.target.reset(); go("al");
+  saveLS(LS);renderAll();e.target.reset();go("al");
 });
 
 renderAll();
