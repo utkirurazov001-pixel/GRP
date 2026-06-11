@@ -12,8 +12,12 @@ export const CONFIG = {
   },
   BCRYPT_ROUNDS: 12,
   RATE_LIMIT: { WINDOW_MS: 60_000, MAX: 100 },
-  ALLOWED_ORIGINS: (process.env.ALLOWED_ORIGINS || "http://localhost:4000")
-    .split(",").map((s) => s.trim()).filter(Boolean),
+  ALLOWED_ORIGINS: [
+    ...(process.env.ALLOWED_ORIGINS || "http://localhost:4000")
+      .split(",").map((s) => s.trim()).filter(Boolean),
+    // Render o'z URL'ini RENDER_EXTERNAL_URL orqali beradi — qo'lda sozlash shart emas
+    ...(process.env.RENDER_EXTERNAL_URL ? [process.env.RENDER_EXTERNAL_URL] : []),
+  ],
   UPLOADS: {
     DIR: new URL("../uploads/", import.meta.url).pathname,
     MAX_BYTES: 20 * 1024 * 1024,
