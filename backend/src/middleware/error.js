@@ -9,6 +9,9 @@ function errorHandler(err, req, res, next) {
   if (err instanceof ApiError) {
     return fail(res, err.status, err.code, err.message, err.details);
   }
+  if (err && err.code === 'LIMIT_FILE_SIZE') {
+    return fail(res, 422, 'FILE_TOO_LARGE', 'Fayl hajmi 20MB dan oshmasligi kerak');
+  }
   console.error('[error]', err);
   return fail(res, 500, 'INTERNAL_ERROR', 'Internal server error');
 }

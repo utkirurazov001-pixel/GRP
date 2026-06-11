@@ -15,7 +15,11 @@
   const tbody = document.getElementById('orgs-tbody');
   const pagination = document.getElementById('pagination');
 
-  if (canEdit) document.getElementById('btn-add').hidden = false;
+  if (canEdit) {
+    document.getElementById('btn-add').hidden = false;
+    document.getElementById('th-actions').hidden = false;
+  }
+  const colCount = canEdit ? 9 : 8;
 
   // ---------- Reference data ----------
   async function loadMeta() {
@@ -40,11 +44,18 @@
   // ---------- Table ----------
   function skeletonRows() {
     tbody.innerHTML = Array.from({ length: 6 }, () =>
-      '<tr><td colspan="8"><div class="skeleton" style="height:20px"></div></td></tr>').join('');
+      '<tr><td colspan="' + colCount + '"><div class="skeleton" style="height:20px"></div></td></tr>').join('');
   }
 
   function rowHtml(o) {
     const period = (o.start_year || '—') + '–' + (o.end_year || '—');
+    let actions = '';
+    if (canEdit) {
+      actions = '<td style="white-space:nowrap">' +
+        '<button class="icon-btn" title="Tahrirlash" data-edit="' + o.id + '">✎</button>' +
+        (canDelete ? ' <button class="icon-btn" title="O\'chirish" data-del="' + o.id + '">🗑</button>' : '') +
+        '</td>';
+    }
     return '<tr data-id="' + o.id + '">' +
       '<td class="org-name">' + G.esc(o.name_uz_latn) +
       '<small>' + G.esc(o.agreement_number || '') + '</small></td>' +
@@ -55,6 +66,7 @@
       '<td class="num">' + period + '</td>' +
       '<td>' + G.statusPill(o.status) + '</td>' +
       '<td>' + G.riskPill(o.risk_level) + '</td>' +
+      actions +
       '</tr>';
   }
 
@@ -69,11 +81,11 @@
       body = await G.api('/api/gerpi?' + params);
     } catch (err) {
       G.toast(err.message, 'error');
-      tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state">Xatolik yuz berdi</div></td></tr>';
+      tbody.innerHTML = '<tr><td colspan="' + colCount + '"><div class="empty-state">Xatolik yuz berdi</div></td></tr>';
       return;
     }
     if (!body.data.length) {
-      tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state">' +
+      tbody.innerHTML = '<tr><td colspan="' + colCount + '"><div class="empty-state">' +
         '<div class="big">🗂</div>Hech narsa topilmadi — filtrlarni o\'zgartirib ko\'ring</div></td></tr>';
       pagination.innerHTML = '';
       return;
@@ -134,82 +146,30 @@
     if (e.target.classList.contains('modal-backdrop')) e.target.classList.remove('open');
   });
 
-  // ---------- Detail ----------
-  tbody.addEventListener('click', (e) => {
-    const tr = e.target.closest('tr[data-id]');
-    if (tr) openDetail(tr.dataset.id);
-  });
-
-  function detailItem(label, value) {
-    return '<div class="detail-item"><div class="dl">' + label + '</div><div class="dv">' + value + '</div></div>';
-  }
-
-  async function openDetail(id) {
-    document.getElementById('detail-title').textContent = 'Yuklanmoqda…';
-    document.getElementById('detail-body').innerHTML = '<div class="skeleton" style="height:120px"></div>';
-    document.getElementById('detail-foot').innerHTML = '';
-    openModal('detail-backdrop');
-
-    let o;
-    try {
-      o = (await G.api('/api/gerpi/' + id)).data;
-    } catch (err) {
-      G.toast(err.message, 'error');
-      closeModal('detail-backdrop');
+  // ---------- Row actions: open profile page, edit, delete ----------
+  tbody.addEventListener('click', async (e) => {
+    const editBtn = e.target.closest('[data-edit]');
+    if (editBtn) {
+      try {
+        const o = (await G.api('/api/gerpi/' + editBtn.dataset.edit)).data;
+        openEdit(o);
+      } catch (err) { G.toast(err.message, 'error'); }
       return;
     }
-
-    document.getElementById('detail-title').textContent = o.name_uz_latn;
-    const last = o.disbursements[o.disbursements.length - 1];
-    const regions = o.regions.map((r) => r.name_uz_latn).join(', ') || '—';
-
-    let html = '<div class="detail-grid">' +
-      detailItem('Vazirlik', G.esc(o.ministry_name || '—')) +
-      detailItem('Donor', G.esc((o.donor_short || '') + ' — ' + (o.donor_name || ''))) +
-      detailItem('Byudjet', G.fmtMoney(o.budget_total_usd)) +
-      detailItem("O'zlashtirildi", last
-        ? G.fmtMoney(last.disbursed_usd_cumulative) + ' (' + Number(last.disbursed_pct).toFixed(0) + '%)'
-        : '—') +
-      detailItem('Muddat', (o.start_year || '—') + ' – ' + (o.end_year || '—')) +
-      detailItem('Bitim', G.esc(o.agreement_number || '—')) +
-      detailItem('Holat', G.statusPill(o.status) + ' ' + G.riskPill(o.risk_level)) +
-      detailItem('Direktor', G.esc(o.director_name || '—') + (o.director_phone ? ' · ' + G.esc(o.director_phone) : '')) +
-      detailItem('Hududlar', G.esc(regions)) +
-      detailItem('Ochiq ogohlantirishlar', String(o.alerts.length)) +
-      '</div>';
-
-    if (o.components.length) {
-      html += '<h3 style="font-size:13.5px;color:var(--navy);margin-bottom:10px">Tarkibiy komponentlar</h3>';
-      html += '<div class="table-scroll"><table><thead><tr><th>Komponent</th><th>Byudjet</th><th>Progress</th></tr></thead><tbody>';
-      for (const c of o.components) {
-        html += '<tr style="cursor:default"><td>' + G.esc(c.name) + '</td>' +
-          '<td class="num">' + G.fmtMoney(c.budget_usd) + '</td>' +
-          '<td>' + G.progressBar(c.progress_pct, c.planned_progress_pct) + '</td></tr>';
-      }
-      html += '</tbody></table></div>';
-    }
-    document.getElementById('detail-body').innerHTML = html;
-
-    let foot = '';
-    if (canEdit) foot += '<button class="btn btn-secondary" id="btn-edit">Tahrirlash</button>';
-    if (canDelete) foot += '<button class="btn btn-danger" id="btn-delete">O\'chirish</button>';
-    document.getElementById('detail-foot').innerHTML = foot;
-
-    const editBtn = document.getElementById('btn-edit');
-    if (editBtn) editBtn.addEventListener('click', () => { closeModal('detail-backdrop'); openEdit(o); });
-    const delBtn = document.getElementById('btn-delete');
+    const delBtn = e.target.closest('[data-del]');
     if (delBtn) {
-      delBtn.addEventListener('click', async () => {
-        if (!confirm('Rostdan ham "' + o.name_uz_latn + '" reestrdan o\'chirilsinmi?')) return;
-        try {
-          await G.api('/api/gerpi/' + o.id, { method: 'DELETE' });
-          G.toast('GERPI reestrdan o\'chirildi');
-          closeModal('detail-backdrop');
-          loadList();
-        } catch (err) { G.toast(err.message, 'error'); }
-      });
+      const name = delBtn.closest('tr').querySelector('.org-name').childNodes[0].textContent;
+      if (!confirm('Rostdan ham "' + name + '" reestrdan o\'chirilsinmi?')) return;
+      try {
+        await G.api('/api/gerpi/' + delBtn.dataset.del, { method: 'DELETE' });
+        G.toast('GERPI reestrdan o\'chirildi');
+        loadList();
+      } catch (err) { G.toast(err.message, 'error'); }
+      return;
     }
-  }
+    const tr = e.target.closest('tr[data-id]');
+    if (tr) location.href = '/org-detail.html?id=' + tr.dataset.id;
+  });
 
   // ---------- Create / edit ----------
   const F = (id) => document.getElementById(id);

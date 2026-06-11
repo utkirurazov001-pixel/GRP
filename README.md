@@ -51,6 +51,9 @@ frontend/
   index.html         — kirish sahifasi
   dashboard.html     — boshqaruv paneli (KPI + 4 grafik + reyting)
   orgs.html          — GERPI reestri (filtr, qidiruv, CRUD)
+  org-detail.html    — to'liq profil: 6 tab (umumiy, o'zlashtirish, komponentlar,
+                       xaridlar, hujjatlar, ogohlantirishlar)
+  data-entry.html    — GERPI xodimi uchun 3 qadamli hisobot wizard'i
   assets/            — uslublar, skriptlar, Chart.js (lokal vendor)
 ```
 
@@ -60,8 +63,9 @@ API tavsifi: [API_DOCS.md](API_DOCS.md)
 
 - [x] **1-faza — Poydevor:** DB migratsiyalar + seed, JWT auth + RBAC (5 rol),
       GERPI CRUD + reestr sahifasi, jonli dashboard, audit log
-- [ ] **2-faza — Ma'lumot yig'ish:** DCP-01..05 formalari, hisobot workflow,
-      hujjat yuklash, to'liq org-profil sahifasi
+- [x] **2-faza — Ma'lumot yig'ish:** DCP-01..04 formalari, hisobot workflow
+      (qoralama → topshirilgan → tasdiqlangan/qaytarilgan), hujjat yuklash,
+      tabli to'liq org-profil sahifasi, 3 qadamli hisobot wizard'i
 - [ ] **3-faza — Intellekt:** alert rules engine + cron, risk score,
       KPI snapshotlar, Socket.IO, risk matritsasi
 - [ ] **4-faza — Sayqal:** GeoJSON xarita, PDF/Excel eksport, i18n (4 til),

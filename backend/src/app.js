@@ -37,6 +37,7 @@ app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/gerpi', require('./routes/gerpi.routes'));
 app.use('/api/meta', require('./routes/meta.routes'));
 app.use('/api/analytics', require('./routes/analytics.routes'));
+app.use('/api', require('./routes/dcp.routes'));
 
 app.use('/api', notFound);
 

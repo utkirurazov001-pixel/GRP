@@ -122,10 +122,12 @@
   const NAV = [
     { href: '/dashboard.html', icon: '▦', label: 'Boshqaruv paneli' },
     { href: '/orgs.html', icon: '☰', label: 'GERPI reestri' },
+    { href: '/data-entry.html', icon: '✎', label: "Ma'lumot kiritish", roles: ['gerpi_staff'] },
   ];
 
   function renderLayout(activeHref, breadcrumb) {
     const user = Session.user || {};
+    const navItems = NAV.filter((n) => !n.roles || n.roles.includes(user.role));
     const initials = (user.full_name || '?').split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase();
 
     const sidebar = document.createElement('aside');
@@ -135,7 +137,7 @@
       '<div class="brand-title">GERPI Monitoring</div>' +
       '<div class="brand-sub">Milliy nazorat platformasi</div></div></div>' +
       '<nav class="nav">' +
-      NAV.map((n) =>
+      navItems.map((n) =>
         '<a class="nav-item' + (n.href === activeHref ? ' active' : '') + '" href="' + n.href + '">' +
         '<span class="ico">' + n.icon + '</span>' + esc(n.label) + '</a>').join('') +
       '</nav>' +

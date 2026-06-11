@@ -73,12 +73,49 @@ Dashboard payload:
 
 `avg_disbursement_pct` is budget-weighted: Σ disbursed / Σ budget.
 
+## Disbursement reports (DCP-01)
+
+Workflow: `qoralama → topshirilgan → tasdiqlangan | qaytarilgan`.
+Entry: `gerpi_staff` (own org) or `admin`. Review: `mof_supervisor`,
+`ministry_officer` (own ministry), `admin`.
+
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/gerpi/:id/disbursements` | full history, newest first |
+| POST | `/gerpi/:id/disbursements` | upsert draft for `{year, quarter}`; fields: `disbursed_usd_cumulative, disbursed_pct, planned_pct, commitment_usd, narrative` |
+| PATCH | `/disbursements/:id/submit` | validations: pct ≥ previous quarter, sum ≤ budget, narrative ≥ 100 chars when plan−actual > 10% |
+| PATCH | `/disbursements/:id/approve` | → `tasdiqlangan`; if plan−actual > 15% an automatic `R1` high alert is created (returned as `data.alert`) |
+| PATCH | `/disbursements/:id/reject` | body `{ comment }` (≥ 10 chars) → `qaytarilgan` |
+
+## Components (DCP-02)
+
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/gerpi/:id/components` | |
+| POST | `/gerpi/:id/components` | staff/admin/mof; `name, budget_usd` required |
+| PATCH | `/components/:id` | partial update, e.g. `{ progress_pct }` |
+
+## Procurements (DCP-03)
+
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/gerpi/:id/procurements` | |
+| POST | `/gerpi/:id/procurements` | `title, estimated_usd` required; `method`: ICB/NCB/shopping/direct/QCBS/boshqa |
+| PATCH | `/procurements/:id` | setting status to `bekor_qilingan` increments `cancel_count`; at 2+ an automatic `R4` alert is created (returned as `data.alert`) |
+
+## Documents (DCP-04)
+
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/gerpi/:id/documents` | |
+| POST | `/gerpi/:id/documents` | `multipart/form-data`: `file` (PDF/DOCX/XLSX/JPG/PNG, ≤ 20MB), `title`, `type`, optional `period_year/period_quarter/due_date` |
+| GET | `/documents/:id/download` | scope-checked; download is audit-logged as `export` |
+
 ## Misc
 
 | Method | Path | Notes |
 |---|---|---|
 | GET | `/health` | unauthenticated liveness probe |
 
-*Planned for later phases:* disbursement workflow endpoints
-(`/gerpi/:id/disbursements`, submit/approve/reject), procurements, documents,
-alerts management, exports, and admin CRUD — see the build phases in README.md.
+*Planned for later phases:* alerts management, analytics extensions
+(risk matrix, regions), exports, and admin CRUD — see the build phases in README.md.
