@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="uz-Cyrl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ҚТР-2 ЛАОГ — Субкомпонентлар мониторинг платформаси</title>
+<style>
+:root{
+  --wb-navy:#002244; --wb-blue:#0071bc; --wb-cyan:#009fda; --wb-orange:#f05023;
+  --ok:#1e8e3e; --warn:#e8a000; --bad:#c5221f;
+  --bg:#f4f6f9; --card:#ffffff; --line:#dde3ea; --txt:#1c2733; --mut:#5f6b7a;
+  --r:10px; --sh:0 1px 3px rgba(16,34,56,.08),0 4px 14px rgba(16,34,56,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:"Segoe UI","Noto Sans",system-ui,Arial,sans-serif;background:var(--bg);color:var(--txt);font-size:15px;line-height:1.45}
+a{color:var(--wb-blue)}
+
+/* ---------- layout ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:var(--wb-navy);color:#fff;display:flex;align-items:center;gap:12px;padding:10px 16px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.burger{display:none;background:none;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:6px 10px;font-size:18px;cursor:pointer}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand .logo{width:38px;height:38px;border-radius:8px;background:linear-gradient(135deg,var(--wb-blue),var(--wb-cyan));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:0 0 auto}
+.brand h1{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:block;font-size:11px;font-weight:400;color:#bcd2e8}
+.top-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.chip-demo{background:var(--wb-orange);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;letter-spacing:.4px}
+.btn{border:0;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;background:var(--wb-blue);color:#fff}
+.btn.ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3)}
+.btn.sec{background:#e8eef5;color:var(--wb-navy)}
+.btn.warn{background:var(--wb-orange)}
+.wrap{display:flex;min-height:calc(100vh - 58px)}
+nav{width:228px;flex:0 0 auto;background:#fff;border-right:1px solid var(--line);padding:14px 10px}
+nav .nv{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:10px 12px;font-size:14px;color:var(--txt);cursor:pointer;font-weight:500}
+nav .nv .ic{width:22px;text-align:center}
+nav .nv.on{background:var(--wb-navy);color:#fff}
+nav .nv:hover:not(.on){background:#eef3f8}
+nav .sep{margin:10px 8px;border-top:1px solid var(--line)}
+main{flex:1;min-width:0;padding:18px 20px 60px}
+.page{display:none}.page.on{display:block}
+.ph{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.ph h2{font-size:20px;color:var(--wb-navy)}
+.ph .sub{color:var(--mut);font-size:13px}
+
+/* ---------- cards / kpi ---------- */
+.grid{display:grid;gap:14px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(165px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px}
+.kpi .lab{font-size:12px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.kpi .val{font-size:26px;font-weight:800;color:var(--wb-navy);margin-top:4px}
+.kpi .det{font-size:12px;color:var(--mut);margin-top:2px}
+.kpi.b{border-top:3px solid var(--wb-blue)} .kpi.o{border-top:3px solid var(--wb-orange)}
+.kpi.g{border-top:3px solid var(--ok)} .kpi.c{border-top:3px solid var(--wb-cyan)}
+.two{grid-template-columns:1fr 1fr}
+.card h3{font-size:15px;color:var(--wb-navy);margin-bottom:10px}
+.card h3 small{color:var(--mut);font-weight:400}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
+th{background:#eef3f8;color:var(--wb-navy);text-align:left;padding:8px 10px;font-size:12px;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}
+td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+tr:hover td{background:#f7fafd}
+.num{text-align:right;white-space:nowrap}
+
+/* ---------- bits ---------- */
+.bar{height:8px;background:#e6ebf1;border-radius:99px;overflow:hidden;min-width:70px}
+.bar i{display:block;height:100%;background:var(--wb-blue);border-radius:99px}
+.bar i.g{background:var(--ok)} .bar i.w{background:var(--warn)} .bar i.r{background:var(--bad)}
+.tag{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.t-ok{background:#e2f3e6;color:var(--ok)} .t-warn{background:#fdf3dc;color:#8a6100}
+.t-bad{background:#fbe4e3;color:var(--bad)} .t-blue{background:#e1eefb;color:var(--wb-blue)}
+.t-gray{background:#eceff3;color:var(--mut)} .t-navy{background:var(--wb-navy);color:#fff}
+.mini{font-size:12px;color:var(--mut)}
+.leg{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:8px}
+.leg b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.alert-it{display:flex;gap:10px;padding:10px 4px;border-top:1px solid var(--line);align-items:flex-start}
+.alert-it:first-child{border-top:0}
+.alert-it .dot{width:10px;height:10px;border-radius:99px;margin-top:5px;flex:0 0 auto}
+.d-bad{background:var(--bad)} .d-warn{background:var(--warn)} .d-ok{background:var(--wb-blue)}
+.pl{display:flex;gap:6px;flex-wrap:wrap}
+.step{font-size:11px;padding:3px 8px;border-radius:6px;background:#eceff3;color:var(--mut);font-weight:600}
+.step.done{background:var(--wb-navy);color:#fff}
+.step.cur{background:var(--wb-orange);color:#fff}
+.form{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.form label{font-size:12px;font-weight:700;color:var(--wb-navy);display:block;margin-bottom:4px}
+.form input,.form select,.form textarea{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:#fff;font-family:inherit}
+.form .full{grid-column:1/-1}
+.note{background:#eef6fc;border:1px solid #cfe6f5;border-radius:8px;padding:10px 12px;font-size:13px;color:#15486b;margin-bottom:12px}
+.mt{margin-top:14px}
+.flexh{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* ---------- responsive ---------- */
+@media(max-width:880px){
+  .burger{display:block}
+  nav{position:fixed;left:0;top:58px;bottom:0;z-index:60;transform:translateX(-105%);transition:transform .22s;box-shadow:4px 0 18px rgba(0,0,0,.18);overflow-y:auto}
+  nav.open{transform:none}
+  main{padding:14px 12px 70px}
+  .two{grid-template-columns:1fr}
+  .brand h1{font-size:13px;white-space:normal;line-height:1.2}
+  body{font-size:14px}
+  .kpi .val{font-size:22px}
+}
+@media print{
+  .topbar,nav,.no-print{display:none!important}
+  body{background:#fff}
+  main{padding:0}
+  .card{box-shadow:none;break-inside:avoid}
+  .page{display:none}.page.on{display:block}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="burger" id="burger" aria-label="Меню">☰</button>
+  <div class="brand">
+    <div class="logo">ҚТР‑2</div>
+    <h1>«Қишлоқ тадбиркорлигини ривожлантириш — 2 фаза» ЛАОГ
+      <small>UZ‑7061 · Жаҳон банки (IDA) · Субкомпонентлар мониторинги</small></h1>
+  </div>
+  <div class="top-actions no-print">
+    <span class="chip-demo">ДЕМО</span>
+    <button class="btn ghost" onclick="window.print()">⎙ Чоп этиш</button>
+  </div>
+</header>
+
+<div class="wrap">
+<nav id="nav">
+  <button class="nv on" data-p="dash"><span class="ic">📊</span>Бошқарув панели</button>
+  <button class="nv" data-p="subc"><span class="ic">🗂</span>Субкомпонентлар</button>
+  <button class="nv" data-p="women"><span class="ic">👩‍💼</span>1.4 Аёллар дастури</button>
+  <button class="nv" data-p="sect"><span class="ic">🔗</span>1.2 Сотиш занжирлари</button>
+  <button class="nv" data-p="proc"><span class="ic">📑</span>Шартномалар</button>
+  <button class="nv" data-p="reg"><span class="ic">🗺</span>Ҳудудлар</button>
+  <button class="nv" data-p="rep"><span class="ic">📄</span>Ҳисоботлар</button>
+  <button class="nv" data-p="al"><span class="ic">🔔</span>Огоҳлантиришлар <span class="tag t-bad" id="alCnt">0</span></button>
+  <div class="sep"></div>
+  <button class="nv" data-p="entry"><span class="ic">✍️</span>Маълумот киритиш</button>
+  <button class="nv" onclick="exportJSON()"><span class="ic">⬇</span>JSON экспорт</button>
+</nav>
+
+<main>
+
+<!-- ============ DASHBOARD ============ -->
+<section class="page on" id="p-dash">
+  <div class="ph"><h2>Бошқарув панели</h2><span class="sub" id="todayLab"></span></div>
+  <div class="grid kpis" id="kpiRow"></div>
+
+  <div class="grid two mt">
+    <div class="card">
+      <h3>1.4 — Даврлар бўйича ўқитилган аёллар <small>(план/факт)</small></h3>
+      <div id="chPeriods"></div>
+      <div class="leg"><span><b style="background:var(--wb-blue)"></b>Факт</span><span><b style="background:#dbe5ee"></b>План (2 000)</span></div>
+    </div>
+    <div class="card">
+      <h3>Умумий мақсадларга эришиш</h3>
+      <div id="chGoals"></div>
+    </div>
+  </div>
+
+  <div class="grid two mt">
+    <div class="card">
+      <h3>Округлар кесими <small>(1.4 дастури)</small></h3>
+      <div class="tw"><table id="tOkrug"></table></div>
+    </div>
+    <div class="card">
+      <h3>Сўнгги огоҳлантиришлар</h3>
+      <div id="dashAlerts"></div>
+      <div class="mt no-print"><button class="btn sec" onclick="go('al')">Барчасини кўриш →</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUBCOMPONENTS ============ -->
+<section class="page" id="p-subc">
+  <div class="ph"><h2>Субкомпонентлар реестри</h2><span class="sub">мақсад · ижрочи · муддат · ҳолат</span></div>
+  <div class="grid" id="subcCards" style="grid-template-columns:repeat(auto-fit,minmax(310px,1fr))"></div>
+</section>
+
+<!-- ============ 1.4 WOMEN ============ -->
+<section class="page" id="p-women">
+  <div class="ph"><h2>1.4 — Аёллар тадбиркорлигини ривожлантириш</h2>
+    <span class="sub">5 давр × 6 ой · 120 соат ўқитиш · грантлар: якка $5 000 / гуруҳ $15 000</span></div>
+
+  <div class="grid kpis" id="wKpis"></div>
+
+  <div class="card mt">
+    <h3>Даврлар ҳолати</h3>
+    <div class="tw"><table id="tPeriods"></table></div>
+  </div>
+
+  <div class="grid two mt">
+    <div class="card">
+      <h3>Тренинглар журнали (MIS) <small>— 24 соат қоидаси</small></h3>
+      <div class="note">Қоида: тренинг камида <b>24 соат олдин</b> тизимда тасдиқланади; ўтказилгач натижалар <b>24 соат ичида</b> киритилади.</div>
+      <div class="tw"><table id="tTrain"></table></div>
+    </div>
+    <div class="card">
+      <h3>Грант танловлари</h3>
+      <div class="tw"><table id="tGrants"></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1.2 SECTORS ============ -->
+<section class="page" id="p-sect">
+  <div class="ph"><h2>1.2 — Ҳамкорликни ривожлантириш ва сотиш занжирлари</h2>
+    <span class="sub">бюджет $0.72 млн · мақсад: камида 7 кучсиз соҳани аниқлаш ва сотиш занжирини яратиш</span></div>
+
+  <div class="grid kpis" id="sKpis"></div>
+
+  <div class="card mt">
+    <h3>Соҳалар бўйича жараён <small>(сўровнома → таҳлил → тавсия пакети → кўргазма/ярмарка → агрегатор)</small></h3>
+    <div class="tw"><table id="tSect"></table></div>
+  </div>
+</section>
+
+<!-- ============ PROCUREMENT ============ -->
+<section class="page" id="p-proc">
+  <div class="ph"><h2>Шартномалар ва ижрочилар</h2>
+    <span class="sub">Жаҳон банки тартиб-таомиллари бўйича харидлар</span></div>
+  <div class="card"><div class="tw"><table id="tProc"></table></div></div>
+  <div class="card mt">
+    <h3>Асосий deliverable'лар назорати</h3>
+    <div class="tw"><table id="tDeliv"></table></div>
+  </div>
+</section>
+
+<!-- ============ REGIONS ============ -->
+<section class="page" id="p-reg">
+  <div class="ph"><h2>Ҳудудлар қамрови</h2><span class="sub">9 ҳудуд · 20 туман · ~200 маҳалла · 4 округ</span></div>
+  <div class="card"><div class="tw"><table id="tReg"></table></div></div>
+</section>
+
+<!-- ============ REPORTS ============ -->
+<section class="page" id="p-rep">
+  <div class="ph"><h2>Ҳисоботлар назорати</h2>
+    <span class="sub">CMP ойлиги — кейинги ойнинг 5‑санасигача · БТҚБТ якунийси — тасдиқдан кейин 10 иш куни, ўзбек+инглиз</span></div>
+  <div class="card"><div class="tw"><table id="tRep"></table></div></div>
+</section>
+
+<!-- ============ ALERTS ============ -->
+<section class="page" id="p-al">
+  <div class="ph"><h2>Огоҳлантиришлар</h2><span class="sub">автоматик қоидалар + қўлда киритилган</span></div>
+  <div class="card" id="alList"></div>
+</section>
+
+<!-- ============ DATA ENTRY ============ -->
+<section class="page" id="p-entry">
+  <div class="ph"><h2>Маълумот киритиш</h2><span class="sub">киритилганлар шу қурилмада (localStorage) сақланади</span></div>
+
+  <div class="card">
+    <h3>Тренинг қўшиш (MIS)</h3>
+    <form class="form" id="fTrain">
+      <div><label>Сана</label><input type="date" name="date" required></div>
+      <div><label>Туман</label><select name="district" required></select></div>
+      <div><label>Маҳалла / гуруҳ</label><input name="group" placeholder="Гулистон МФЙ, 2-гуруҳ" required></div>
+      <div><label>Мавзу</label><input name="topic" placeholder="Бизнес режа: харажатлар" required></div>
+      <div><label>Иштирокчилар</label><input type="number" name="att" min="0" max="30" value="8" required></div>
+      <div><label>Ҳолат</label><select name="st"><option value="tasdiqlangan">Тасдиқланган (24с олдин)</option><option value="otkazildi">Ўтказилди, натижа киритилди</option><option value="kutilmoqda">Натижа кутилмоқда</option></select></div>
+      <div class="full no-print"><button class="btn">Сақлаш</button></div>
+    </form>
+  </div>
+
+  <div class="card mt">
+    <h3>Грант ёзуви қўшиш</h3>
+    <form class="form" id="fGrant">
+      <div><label>Давр</label><select name="period"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select></div>
+      <div><label>Туман</label><select name="district" required></select></div>
+      <div><label>Олувчи (аёл / гуруҳ)</label><input name="who" placeholder="Гуруҳ: «Ҳунарманд аёллар»" required></div>
+      <div><label>Тури</label><select name="type"><option value="yakka">Якка ($5 000 гача)</option><option value="guruh">Гуруҳ ($15 000 гача)</option></select></div>
+      <div><label>Сумма (USD)</label><input type="number" name="usd" min="100" max="15000" value="5000" required></div>
+      <div><label>Ҳолат</label><select name="st"><option value="ariza">Ариза</option><option value="golib">Ғолиб</option><option value="ozlashtirilmoqda">Ўзлаштирилмоқда</option><option value="yakunlandi">Якунланди</option></select></div>
+      <div class="full no-print"><button class="btn">Сақлаш</button></div>
+    </form>
+  </div>
+
+  <div class="card mt">
+    <h3>Огоҳлантириш қўшиш (қўлда)</h3>
+    <form class="form" id="fAlert">
+      <div><label>Даража</label><select name="sev"><option value="bad">Юқори</option><option value="warn" selected>Ўрта</option><option value="ok">Маълумот</option></select></div>
+      <div class="full"><label>Матн</label><input name="txt" placeholder="Огоҳлантириш матни…" required></div>
+      <div class="full no-print"><button class="btn warn">Қўшиш</button></div>
+    </form>
+  </div>
+
+  <div class="card mt no-print">
+    <h3>Маҳаллий маълумотлар</h3>
+    <div class="flexh">
+      <button class="btn sec" onclick="exportJSON()">⬇ JSON экспорт</button>
+      <button class="btn sec" onclick="if(confirm('Киритилган барча маҳаллий ёзувлар ўчирилсинми?')){localStorage.removeItem(LSKEY);location.reload()}">🗑 Киритилганларни тозалаш</button>
+    </div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<script>
+"use strict";
+/* =================== ДЕМО МАЪЛУМОТЛАР (ТЗларга асосланган) =================== */
+const TODAY = new Date();
+const LSKEY = "qtr2_laog_v1";
+
+const OKRUGS = [
+ {n:1, regions:[["Қорақалпоғистон Р.",["Мўйноқ","Қонликўл","Бўзатов"]],["Хоразм",["Янгиариқ","Хазорасп"]]]},
+ {n:2, regions:[["Бухоро",["Олот","Пешку"]],["Навоий",["Томди","Конимех"]]]},
+ {n:3, regions:[["Сурхондарё",["Бандихон","Қизириқ"]],["Қашқадарё",["Деҳқонобод","Миришкор","Қамаши"]],["Самарқанд",["Қўшработ","Оқдарё","Каттақўрғон"]]]},
+ {n:4, regions:[["Сирдарё",["Сардоба"]],["Тошкент вил.",["Бўка","Бекобод"]]]},
+];
+const DISTRICTS = OKRUGS.flatMap(o=>o.regions.flatMap(([reg,ds])=>ds.map(d=>({okrug:o.n,region:reg,district:d}))));
+
+/* детерминистик «тасодиф» — демо барқарорлиги учун */
+const wig=(i,j)=>((Math.sin(i*12.9898+j*78.233)*43758.5453)%1+1)%1;
+
+/* 5 давр (ҳар бири 6 ой): план 2000 аёл, 200 грант */
+const PERIODS=[
+ {n:1, span:"2024 янв–июн", trained:1840, grants:200, gUsd:1.18, st:"yakunlangan"},
+ {n:2, span:"2024 июл–дек", trained:1960, grants:200, gUsd:1.22, st:"yakunlangan"},
+ {n:3, span:"2025 янв–июн", trained:2050, grants:198, gUsd:1.19, st:"yakunlangan"},
+ {n:4, span:"2025 июл–дек", trained:1875, grants:204, gUsd:1.27, st:"yakunlangan"},
+ {n:5, span:"2026 янв–июн", trained:1620, grants:64,  gUsd:0.38, st:"grant"},
+];
+const PLAN_TRAIN=2000, PLAN_GRANT=200, TOT_TRAIN=10000, TOT_GRANT=1000;
+
+/* туман кесими (демо): ўқитилганлар тақсимоти */
+const DIST_STATS = DISTRICTS.map((d,i)=>{
+  const tr=Math.round(380+wig(i,1)*220);          // жами ўқитилган
+  const gr=Math.round(38+wig(i,2)*22);            // жами грант
+  const mah=10;                                   // маҳаллалар
+  const grp=Math.round(18+wig(i,3)*14);           // гуруҳлар
+  return {...d, mah, grp, tr, gr};
+});
+
+/* 1.2 — 17 намунавий соҳа (сўровнома иловасидан), pipeline ҳолати */
+const PIPE=["Сўровнома","Таҳлил","Тавсия пакети","Кўргазма","Агрегатор"];
+const SECTORS=[
+ ["Кичик тикувчилик цехлари (4–30 машина)",5,142],
+ ["Пайпоқ тўқиш цехлари (1–20 ускуна)",4,88],
+ ["Қуёнчилик (100–5000 бош)",3,104],
+ ["Кичик қадоқлаш (шу жумладан вакуум)",4,71],
+ ["Газоблок/пеноблок/брусчатка (10 минг/кун гача)",2,63],
+ ["Сут ва гўшт етиштириш (5–25 бош)",3,156],
+ ["Қўйчилик (500 бошгача)",2,97],
+ ["Боғдорчилик (1–10 га)",3,118],
+ ["Асаларичилик (5–100 яшик)",5,134],
+ ["Мебель / ПВХ-алюмин ром (20 м²/кун)",2,59],
+ ["Сутни қайта ишлаш (100 т/йил)",3,66],
+ ["Қўзиқорин етиштириш (20 т/йил)",4,52],
+ ["Парник сабзавот/кўкат (50 сотихгача)",3,121],
+ ["Пишган ғишт (10 минг/кун)",1,44],
+ ["Қ/х маҳсулотини консервалаш (100 т/йил)",2,73],
+ ["Қ/х маҳсулотини қуритиш (100 т/йил)",4,81],
+ ["Миллий ҳунармандчилик буюмлари",2,49],
+].map(([name,stage,subj],i)=>({name,stage,subj}));
+
+/* шартномалар */
+const fmtD=d=>d; // саналар матн кўринишида
+const CONTRACTS=[
+ {code:"BPO‑1", who:"БТҚБТ (1‑округ)", scope:"Базавий бизнес режалар, ўқитиш методологияси", t:"3 ой", from:"2023‑11", to:"2024‑02", st:"yakunlangan", sum:"$58 000"},
+ {code:"BPO‑2", who:"БТҚБТ (2‑округ)", scope:"Базавий бизнес режалар, ўқитиш методологияси", t:"3 ой", from:"2023‑11", to:"2024‑02", st:"yakunlangan", sum:"$52 000"},
+ {code:"BPO‑3", who:"БТҚБТ (3‑округ)", scope:"Базавий бизнес режалар, ўқитиш методологияси", t:"3 ой", from:"2023‑12", to:"2024‑03", st:"yakunlangan", sum:"$84 000"},
+ {code:"BPO‑4", who:"БТҚБТ (4‑округ)", scope:"Базавий бизнес режалар, ўқитиш методологияси", t:"3 ой", from:"2023‑12", to:"2024‑03", st:"yakunlangan", sum:"$47 000"},
+ {code:"CMP",   who:"Ҳамкор ташкилот", scope:"Мобилизация, 120 соат ўқитиш, грант мониторинги, MIS", t:"36 ой", from:"2023‑12", to:"2026‑12", st:"faol", sum:"шартнома бўйича"},
+ {code:"SC‑1.2",who:"Маркетинг консультанти", scope:"Соҳа таҳлиллари, тавсия пакетлари, сотиш занжири", t:"24 ой", from:"2024‑03", to:"2026‑03", st:"faol", sum:"$310 000"},
+];
+const DELIV=[
+ {c:"CMP", d:"Давр‑5 ойлик ҳисобот (май)", due:"2026‑06‑05", st:"kechikdi", days:6},
+ {c:"CMP", d:"Давр‑5 грант танлови ҳужжатлари", due:"2026‑06‑20", st:"jarayonda", days:-9},
+ {c:"SC‑1.2", d:"Асаларичилик тавсия пакети (якуний)", due:"2026‑06‑30", st:"jarayonda", days:-19},
+ {c:"SC‑1.2", d:"Кузги ярмарка режаси (4 ҳудуд)", due:"2026‑07‑15", st:"rejada", days:-34},
+ {c:"BPO‑3", d:"Якуний ҳисобот (инглизча нусха)", due:"2024‑04‑10", st:"qabul", days:0},
+ {c:"CMP", d:"Мобилизаторлар чораклик тренинги (Q3)", due:"2026‑07‑01", st:"rejada", days:-20},
+];
+
+/* ҳисоботлар */
+const REPORTS=[
+ {who:"CMP", what:"Ойлик ҳисобот — 2026 май", due:"2026‑06‑05", got:"—", st:"kechikdi"},
+ {who:"CMP", what:"Ойлик ҳисобот — 2026 апрель", due:"2026‑05‑05", got:"2026‑05‑04", st:"qabul"},
+ {who:"CMP", what:"Ойлик ҳисобот — 2026 март", due:"2026‑04‑05", got:"2026‑04‑05", st:"qabul"},
+ {who:"SC‑1.2", what:"Чораклик таҳлил ҳисоботи — 2026 Q1", due:"2026‑04‑15", got:"2026‑04‑12", st:"qabul"},
+ {who:"CMP", what:"Давр‑4 якуний ҳисоботи", due:"2026‑01‑20", got:"2026‑01‑18", st:"qabul"},
+ {who:"БТҚБТ‑3", what:"Якуний йиғма ҳисобот (ўзб+инг)", due:"2024‑04‑10", got:"2024‑04‑09", st:"qabul"},
+];
+
+/* тренинглар журнали (демо) */
+const TRAININGS=[
+ {date:"2026‑06‑10", district:"Қамаши", group:"Оқтепа МФЙ, 1‑гуруҳ", topic:"Бизнес режа: сотиш занжири", att:9, st:"kutilmoqda"},
+ {date:"2026‑06‑10", district:"Сардоба", group:"Гулистон МФЙ, 2‑гуруҳ", topic:"Амалиёт: парник", att:8, st:"otkazildi"},
+ {date:"2026‑06‑11", district:"Олот", group:"Боғишамол МФЙ, 1‑гуруҳ", topic:"Молиявий ҳисоб-китоб", att:10, st:"tasdiqlangan"},
+ {date:"2026‑06‑12", district:"Мўйноқ", group:"Балиқчи МФЙ, 3‑гуруҳ", topic:"Қадоқлаш амалиёти", att:7, st:"tasdiqlangan"},
+ {date:"2026‑06‑09", district:"Бекобод", group:"Дўстлик МФЙ, 2‑гуруҳ", topic:"Грант аризасини тайёрлаш", att:9, st:"otkazildi"},
+];
+
+/* грантлар (демо, давр‑5) */
+const GRANTS=[
+ {period:5, district:"Каттақўрғон", who:"Гуруҳ «Ҳунарманд аёллар» (4 аёл)", type:"guruh", usd:14200, st:"golib"},
+ {period:5, district:"Хазорасп", who:"З. Раҳимова", type:"yakka", usd:4800, st:"golib"},
+ {period:5, district:"Қизириқ", who:"Гуруҳ «Парник‑агро» (3 аёл)", type:"guruh", usd:12600, st:"ozlashtirilmoqda"},
+ {period:5, district:"Томди", who:"Г. Қурбонова", type:"yakka", usd:3900, st:"ariza"},
+ {period:4, district:"Деҳқонобод", who:"М. Эшқулова", type:"yakka", usd:5000, st:"yakunlandi"},
+];
+
+/* автоматик огоҳлантириш қоидалари */
+function buildAlerts(){
+  const A=[];
+  // R1: ҳисобот кечикди
+  REPORTS.filter(r=>r.st==="kechikdi").forEach(r=>A.push({sev:"bad", txt:`${r.who}: «${r.what}» муддати ${r.due} — ҳалигача топширилмаган`, src:"R1·ҳисобот"}));
+  // R2: жорий давр ўқитиш қамрови план−10% дан паст (вақт улушига нисбатан)
+  const p5=PERIODS[4]; const expect=PLAN_TRAIN*0.92; // давр охирлаб қолган
+  if(p5.trained<expect) A.push({sev:"warn", txt:`Давр‑5 ўқитиш қамрови ${p5.trained} та — режа траекториясидан ${Math.round(100-100*p5.trained/expect)}% орқада`, src:"R2·қамров"});
+  // R3: deliverable муддати ≤30 кун
+  DELIV.filter(d=>d.st==="jarayonda"||d.st==="rejada").forEach(d=>{
+    if(d.days>=-30 && d.days<=0) A.push({sev:"warn", txt:`${d.c}: «${d.d}» муддатига оз қолди (${d.due})`, src:"R3·муддат"});
+  });
+  DELIV.filter(d=>d.st==="kechikdi").forEach(d=>A.push({sev:"bad", txt:`${d.c}: «${d.d}» ${d.days} кун кечикди (муддат ${d.due})`, src:"R3·муддат"}));
+  // R4: MIS 24-соат қоидаси
+  TRAININGS.filter(t=>t.st==="kutilmoqda").forEach(t=>A.push({sev:"warn", txt:`MIS: ${t.district}, ${t.group} — ${t.date} тренинг натижалари 24 соат ичида киритилмади`, src:"R4·MIS"}));
+  // R5: грант ўзлаштириш суръати (давр-5)
+  if(p5.grants<PLAN_GRANT*0.4) A.push({sev:"ok", txt:`Давр‑5 грант танлови жараёнда: ${p5.grants}/${PLAN_GRANT} ғолиб аниқланди`, src:"R5·грант"});
+  // 1.2: соҳалар мақсади
+  const found=SECTORS.filter(s=>s.stage>=2).length;
+  A.push({sev:"ok", txt:`1.2: ${found} та соҳа таҳлил босқичидан ўтган (мақсад ≥7) — бажарилди`, src:"1.2"});
+  return A;
+}
+
+/* =================== LOCALSTORAGE =================== */
+function loadLS(){ try{return JSON.parse(localStorage.getItem(LSKEY))||{trainings:[],grants:[],alerts:[]}}catch(e){return {trainings:[],grants:[],alerts:[]}} }
+function saveLS(d){ localStorage.setItem(LSKEY, JSON.stringify(d)); }
+let LS=loadLS();
+function allTrainings(){ return [...LS.trainings, ...TRAININGS]; }
+function allGrants(){ return [...LS.grants, ...GRANTS]; }
+function allAlerts(){ return [...LS.alerts.map(a=>({...a,src:"қўлда"})), ...buildAlerts()]; }
+
+function exportJSON(){
+  const blob=new Blob([JSON.stringify({exported:new Date().toISOString(),local:LS,demo:{PERIODS,DIST_STATS,SECTORS,CONTRACTS,REPORTS}},null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="qtr2-laog-export.json"; a.click();
+}
+
+/* =================== РЕНДЕР =================== */
+const $=s=>document.querySelector(s);
+const fmt=n=>n.toLocaleString("ru-RU");
+const stTag=s=>({
+  yakunlangan:'<span class="tag t-gray">Якунланган</span>', faol:'<span class="tag t-ok">Фаол</span>',
+  grant:'<span class="tag t-blue">Грант босқичи</span>', kechikdi:'<span class="tag t-bad">Кечикди</span>',
+  qabul:'<span class="tag t-ok">Қабул қилинди</span>', jarayonda:'<span class="tag t-blue">Жараёнда</span>',
+  rejada:'<span class="tag t-gray">Режада</span>', tasdiqlangan:'<span class="tag t-blue">Тасдиқланган</span>',
+  otkazildi:'<span class="tag t-ok">Ўтказилди ✓</span>', kutilmoqda:'<span class="tag t-warn">Натижа кутилмоқда</span>',
+  ariza:'<span class="tag t-gray">Ариза</span>', golib:'<span class="tag t-blue">Ғолиб</span>',
+  ozlashtirilmoqda:'<span class="tag t-warn">Ўзлаштирилмоқда</span>', yakunlandi:'<span class="tag t-ok">Якунланди</span>',
+}[s]||s);
+const pbar=(v,m,cls)=>{const p=Math.min(100,Math.round(100*v/m));return `<div class="bar"><i class="${cls||(p>=90?"g":p>=60?"":"w")}" style="width:${p}%"></i></div><span class="mini">${p}%</span>`};
+
+function renderDash(){
+  $("#todayLab").textContent="Ҳолат: "+TODAY.toLocaleDateString("uz-Cyrl-UZ",{day:"numeric",month:"long",year:"numeric"});
+  const tr=PERIODS.reduce((s,p)=>s+p.trained,0), gr=PERIODS.reduce((s,p)=>s+p.grants,0),
+        usd=PERIODS.reduce((s,p)=>s+p.gUsd,0), al=allAlerts(), bad=al.filter(a=>a.sev==="bad").length;
+  $("#kpiRow").innerHTML=`
+   <div class="card kpi b"><div class="lab">Ўқитилган аёллар</div><div class="val">${fmt(tr)}</div><div class="det">мақсад: ${fmt(TOT_TRAIN)} · ${Math.round(100*tr/TOT_TRAIN)}%</div></div>
+   <div class="card kpi g"><div class="lab">Берилган грантлар</div><div class="val">${fmt(gr)}</div><div class="det">мақсад: ${fmt(TOT_GRANT)} · $${usd.toFixed(2)} млн</div></div>
+   <div class="card kpi c"><div class="lab">1.2 соҳалар</div><div class="val">${SECTORS.filter(s=>s.stage>=2).length}<span style="font-size:15px;color:var(--mut)">/7+</span></div><div class="det">таҳлилдан ўтган соҳалар</div></div>
+   <div class="card kpi o"><div class="lab">Очиқ огоҳлантириш</div><div class="val">${al.length}</div><div class="det">${bad} та юқори даражали</div></div>
+   <div class="card kpi b"><div class="lab">Қамров</div><div class="val">20</div><div class="det">туман · 200 маҳалла · 4 округ</div></div>`;
+
+  /* даврлар бар-чарт (SVG) */
+  const W=460,H=190,bw=56,gap=28,x0=34;
+  let bars="";
+  PERIODS.forEach((p,i)=>{
+    const x=x0+i*(bw+gap), hP=130, hF=Math.round(130*p.trained/2200);
+    bars+=`<rect x="${x}" y="${160-hP*2000/2200}" width="${bw}" height="${hP*2000/2200}" fill="#dbe5ee" rx="4"/>
+           <rect x="${x+6}" y="${160-hF}" width="${bw-12}" height="${hF}" fill="var(--wb-blue)" rx="4"/>
+           <text x="${x+bw/2}" y="${152-hF}" text-anchor="middle" font-size="11" font-weight="700" fill="#002244">${fmt(p.trained)}</text>
+           <text x="${x+bw/2}" y="178" text-anchor="middle" font-size="11" fill="#5f6b7a">Д‑${p.n}</text>`;
+  });
+  $("#chPeriods").innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto">${bars}</svg>`;
+
+  /* мақсадлар прогресси */
+  const goals=[["Аёлларни ўқитиш",tr,TOT_TRAIN],["Грантлар сони",gr,TOT_GRANT],["Кучсиз соҳалар (1.2)",SECTORS.filter(s=>s.stage>=2).length,7],["Даврлар",4.8,5]];
+  $("#chGoals").innerHTML=goals.map(([n,v,m])=>{
+    const p=Math.min(100,Math.round(100*v/m));
+    return `<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><b>${n}</b><span class="mini">${typeof v==="number"&&v%1?v:fmt(Math.round(v))} / ${fmt(m)}</span></div><div class="bar" style="height:12px"><i class="${p>=90?"g":p>=60?"":"w"}" style="width:${p}%"></i></div></div>`;
+  }).join("");
+
+  /* округлар */
+  const rows=OKRUGS.map(o=>{
+    const ds=DIST_STATS.filter(d=>d.okrug===o.n);
+    const tr2=ds.reduce((s,d)=>s+d.tr,0), gr2=ds.reduce((s,d)=>s+d.gr,0);
+    return `<tr><td><b>${o.n}-округ</b><div class="mini">${o.regions.map(r=>r[0]).join(", ")}</div></td>
+      <td class="num">${ds.length}</td><td class="num">${fmt(tr2)}</td><td class="num">${gr2}</td>
+      <td>${pbar(tr2, ds.length*500)}</td></tr>`;
+  }).join("");
+  $("#tOkrug").innerHTML=`<tr><th>Округ</th><th class="num">Туман</th><th class="num">Ўқитилган</th><th class="num">Грант</th><th>Қамров</th></tr>${rows}`;
+
+  $("#dashAlerts").innerHTML=allAlerts().slice(0,5).map(a=>
+    `<div class="alert-it"><span class="dot d-${a.sev}"></span><div>${a.txt}<div class="mini">${a.src}</div></div></div>`).join("");
+}
+
+function renderSubc(){
+  const tr=PERIODS.reduce((s,p)=>s+p.trained,0);
+  const cards=[
+   {t:"1.2 — Ҳамкорликни ривожлантириш ва сотиш занжирлари", b:"$0.72 млн", st:"faol",
+    rows:[["Мақсад","≥7 кучсиз соҳани аниқлаш, сотиш занжири"],["Ижрочи","Маркетинг консультанти (SC‑1.2)"],["Босқич",`${SECTORS.filter(s=>s.stage>=2).length} соҳа таҳлилда/тайёр`],["Кейинги қадам","Кузги ярмарка (4 ҳудуд)"]], p:["sect","Модулни очиш →"]},
+   {t:"1.4 — Аёллар тадбиркорлигини ривожлантириш", b:"грант фонди ~$6 млн (демо)", st:"faol",
+    rows:[["Мақсад","10 000 аёл · 1 000 грант · 5 давр"],["Ижрочилар","БТҚБТ ×4 округ + CMP (36 ой)"],["Босқич",`Давр‑5 (грант) · жами ${fmt(tr)} аёл ўқитилди`],["Кейинги қадам","Давр‑5 грант танлови якуни"]], p:["women","Модулни очиш →"]},
+   {t:"БИММ — Бизнес инкубация модули", b:"ТЗ кутилмоқда", st:"rejada",
+    rows:[["Мақсад","ТЗ (BIH TORs_БИММ) тақдим этилгач тўлдирилади"],["Ижрочи","—"],["Босқич","Тайёргарлик"],["Кейинги қадам","ТЗ файлини юклаш"]], p:null},
+  ];
+  $("#subcCards").innerHTML=cards.map(c=>`<div class="card">
+    <div class="flexh" style="justify-content:space-between"><h3 style="margin:0">${c.t}</h3>${stTag(c.st)}</div>
+    <div class="mini" style="margin:4px 0 10px">Бюджет: <b>${c.b}</b></div>
+    <table style="min-width:0">${c.rows.map(r=>`<tr><td class="mini" style="width:38%">${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>
+    ${c.p?`<div class="mt no-print"><button class="btn sec" onclick="go('${c.p[0]}')">${c.p[1]}</button></div>`:""}
+  </div>`).join("");
+}
+
+function renderWomen(){
+  const tr=PERIODS.reduce((s,p)=>s+p.trained,0), gr=PERIODS.reduce((s,p)=>s+p.grants,0);
+  const grp=DIST_STATS.reduce((s,d)=>s+d.grp,0);
+  $("#wKpis").innerHTML=`
+   <div class="card kpi b"><div class="lab">Жами ўқитилган</div><div class="val">${fmt(tr)}</div><div class="det">/ ${fmt(TOT_TRAIN)}</div></div>
+   <div class="card kpi g"><div class="lab">Грантлар</div><div class="val">${fmt(gr)}</div><div class="det">/ ${fmt(TOT_GRANT)} (200×5 давр)</div></div>
+   <div class="card kpi c"><div class="lab">Гуруҳлар</div><div class="val">${fmt(grp)}</div><div class="det">6–10 аёлдан, маҳалла ичида</div></div>
+   <div class="card kpi o"><div class="lab">Жорий давр</div><div class="val">Д‑5</div><div class="det">грант босқичи (6‑ой)</div></div>`;
+
+  $("#tPeriods").innerHTML=`<tr><th>Давр</th><th>Муддат</th><th class="num">Ўқитилган (план 2000)</th><th>Бажарилиши</th><th class="num">Грант (план 200)</th><th class="num">Грант $млн</th><th>Ҳолат</th></tr>`+
+   PERIODS.map(p=>`<tr><td><b>Давр‑${p.n}</b></td><td>${p.span}</td><td class="num">${fmt(p.trained)}</td><td>${pbar(p.trained,PLAN_TRAIN)}</td><td class="num">${p.grants}</td><td class="num">${p.gUsd.toFixed(2)}</td><td>${stTag(p.st)}</td></tr>`).join("");
+
+  $("#tTrain").innerHTML=`<tr><th>Сана</th><th>Туман</th><th>Гуруҳ</th><th>Мавзу</th><th class="num">Ишт.</th><th>Ҳолат</th></tr>`+
+   allTrainings().map(t=>`<tr><td>${t.date}</td><td>${t.district}</td><td>${t.group}</td><td>${t.topic}</td><td class="num">${t.att}</td><td>${stTag(t.st)}</td></tr>`).join("");
+
+  $("#tGrants").innerHTML=`<tr><th>Давр</th><th>Туман</th><th>Олувчи</th><th>Тури</th><th class="num">USD</th><th>Ҳолат</th></tr>`+
+   allGrants().map(g=>`<tr><td>Д‑${g.period}</td><td>${g.district}</td><td>${g.who}</td><td>${g.type==="guruh"?"Гуруҳ":"Якка"}</td><td class="num">${fmt(+g.usd)}</td><td>${stTag(g.st)}</td></tr>`).join("");
+}
+
+function renderSect(){
+  const done=SECTORS.filter(s=>s.stage>=2).length, agg=SECTORS.filter(s=>s.stage>=5).length;
+  const subj=SECTORS.reduce((s,x)=>s+x.subj,0);
+  $("#sKpis").innerHTML=`
+   <div class="card kpi c"><div class="lab">Соҳалар (мақсад ≥7)</div><div class="val">${done}</div><div class="det">таҳлилдан ўтган</div></div>
+   <div class="card kpi b"><div class="lab">Таҳлилдаги субъектлар</div><div class="val">${fmt(subj)}</div><div class="det">ҳар соҳада ≥50 талаби</div></div>
+   <div class="card kpi g"><div class="lab">Агрегатор лойиҳалар</div><div class="val">${agg}</div><div class="det">сотиш занжири яратилган</div></div>
+   <div class="card kpi o"><div class="lab">Бюджет</div><div class="val">$0.72М</div><div class="det">субкомпонент ажратмаси</div></div>`;
+
+  $("#tSect").innerHTML=`<tr><th>Соҳа</th><th class="num">Субъектлар</th><th>Босқич</th></tr>`+
+   SECTORS.map(s=>{
+     const steps=PIPE.map((p,i)=>`<span class="step ${i<s.stage?"done":i===s.stage?"cur":""}">${p}</span>`).join("");
+     return `<tr><td>${s.name}</td><td class="num">${s.subj}</td><td><div class="pl">${steps}</div></td></tr>`;
+   }).join("");
+}
+
+function renderProc(){
+  $("#tProc").innerHTML=`<tr><th>Код</th><th>Ижрочи</th><th>Қамров</th><th>Муддат</th><th>Бошланиши</th><th>Тугаши</th><th class="num">Қиймат</th><th>Ҳолат</th></tr>`+
+   CONTRACTS.map(c=>`<tr><td><b>${c.code}</b></td><td>${c.who}</td><td>${c.scope}</td><td>${c.t}</td><td>${c.from}</td><td>${c.to}</td><td class="num">${c.sum}</td><td>${stTag(c.st)}</td></tr>`).join("");
+  $("#tDeliv").innerHTML=`<tr><th>Шартнома</th><th>Deliverable</th><th>Муддат</th><th>Ҳолат</th></tr>`+
+   DELIV.map(d=>`<tr><td><b>${d.c}</b></td><td>${d.d}</td><td>${d.due}</td><td>${stTag(d.st)}${d.st==="kechikdi"?` <span class="mini">(+${d.days} кун)</span>`:""}</td></tr>`).join("");
+}
+
+function renderReg(){
+  $("#tReg").innerHTML=`<tr><th>Округ</th><th>Ҳудуд</th><th>Туман</th><th class="num">Маҳалла</th><th class="num">Гуруҳ</th><th class="num">Ўқитилган</th><th class="num">Грант</th><th>Қамров</th></tr>`+
+   DIST_STATS.map(d=>`<tr><td>${d.okrug}-округ</td><td>${d.region}</td><td><b>${d.district}</b></td><td class="num">${d.mah}</td><td class="num">${d.grp}</td><td class="num">${fmt(d.tr)}</td><td class="num">${d.gr}</td><td>${pbar(d.tr,500)}</td></tr>`).join("");
+}
+
+function renderRep(){
+  $("#tRep").innerHTML=`<tr><th>Ким</th><th>Ҳисобот</th><th>Муддат</th><th>Топширилди</th><th>Ҳолат</th></tr>`+
+   REPORTS.map(r=>`<tr><td><b>${r.who}</b></td><td>${r.what}</td><td>${r.due}</td><td>${r.got}</td><td>${stTag(r.st)}</td></tr>`).join("");
+}
+
+function renderAlerts(){
+  const A=allAlerts();
+  $("#alCnt").textContent=A.length;
+  $("#alList").innerHTML=A.map(a=>`<div class="alert-it"><span class="dot d-${a.sev}"></span><div>${a.txt}<div class="mini">${a.src}</div></div></div>`).join("")||'<div class="mini">Огоҳлантириш йўқ</div>';
+}
+
+function renderAll(){renderDash();renderSubc();renderWomen();renderSect();renderProc();renderReg();renderRep();renderAlerts();}
+
+/* =================== НАВИГАЦИЯ =================== */
+function go(p){
+  document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));
+  document.querySelectorAll(".nv[data-p]").forEach(x=>x.classList.toggle("on",x.dataset.p===p));
+  $("#p-"+p).classList.add("on");
+  $("#nav").classList.remove("open");
+  window.scrollTo({top:0});
+}
+document.querySelectorAll(".nv[data-p]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.p)));
+$("#burger").addEventListener("click",()=>$("#nav").classList.toggle("open"));
+
+/* =================== ФОРМАЛАР =================== */
+function fillDistricts(sel){ sel.innerHTML=DISTRICTS.map(d=>`<option>${d.district}</option>`).join(""); }
+document.querySelectorAll('select[name="district"]').forEach(fillDistricts);
+
+$("#fTrain").addEventListener("submit",e=>{
+  e.preventDefault(); const f=new FormData(e.target);
+  LS.trainings.unshift({date:f.get("date"),district:f.get("district"),group:f.get("group"),topic:f.get("topic"),att:+f.get("att"),st:f.get("st")});
+  saveLS(LS); renderAll(); e.target.reset(); go("women");
+});
+$("#fGrant").addEventListener("submit",e=>{
+  e.preventDefault(); const f=new FormData(e.target);
+  LS.grants.unshift({period:+f.get("period"),district:f.get("district"),who:f.get("who"),type:f.get("type"),usd:+f.get("usd"),st:f.get("st")});
+  saveLS(LS); renderAll(); e.target.reset(); go("women");
+});
+$("#fAlert").addEventListener("submit",e=>{
+  e.preventDefault(); const f=new FormData(e.target);
+  LS.alerts.unshift({sev:f.get("sev"),txt:f.get("txt")});
+  saveLS(LS); renderAll(); e.target.reset(); go("al");
+});
+
+renderAll();
+</script>
+</body>
+</html>
