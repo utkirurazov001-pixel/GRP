@@ -47,11 +47,43 @@ Risk levels: `past · orta · yuqori`
 | GET | `/meta/donors` | id, name, short_name, country |
 | GET | `/meta/regions` | 14 regions with geojson_id / soato_code |
 
+## Alerts
+
+Created automatically by the rules engine (cron daily 06:00 + warm-up on
+server start + immediately on report approval / tender cancellation) and
+deduplicated per `(gerpi, rule_code)` while open. New alerts are also pushed
+over Socket.IO (`alert:new`) to the rooms allowed to see them.
+
+Rules: `R1` ≥15% behind plan (high) · `R2` quarterly report 7+ days late
+(high) · `R3` ≤6 months to closing & <60% disbursed (medium) · `R4` tender
+cancelled 2+ times (medium) · `R5` audit non-conformity (manual entry, feeds
+risk score) · `R6` annual plan missing after Feb 1 (low) · `R7` preparation
+phase >18 months (medium).
+
+Risk score per org (auto, on every engine run): gap>15 → +40, gap 8–15 → +20;
++10 per 7 days report lateness (max 30); <12 months to close & <70% → +20;
+open audit issue → +15; 2× cancelled tender → +10. 0–25 past / 26–55 orta /
+56+ yuqori → `gerpi_organizations.risk_level`.
+
+| Method | Path | Notes |
+|---|---|---|
+| GET | `/alerts` | filters: `severity, type, gerpi_id, status` (`open`/`resolved`); paginated; role-scoped |
+| PATCH | `/alerts/:id/resolve` | admin/mof only; body `{ note }` (≥ 5 chars) |
+
+### Socket.IO
+
+Connect to the same origin with `io({ auth: { token: <accessToken> } })`.
+Server joins the socket to a visibility room (`supervisors`, `ministry:<id>`,
+`gerpi:<id>` or `donor:<id>`) and emits `alert:new` with the alert payload +
+`gerpi_name`.
+
 ## Analytics
 
 | Method | Path | Notes |
 |---|---|---|
 | GET | `/analytics/dashboard` | live aggregation over the caller's visible scope |
+| GET | `/analytics/risk-matrix` | per org: `months_to_close`, `gap` (plan−actual), `budget_usd`, `risk_level` — bubble chart source |
+| GET | `/analytics/trends` | historical quarterly series from `kpi_snapshots` (auto-created after each quarter) |
 
 Dashboard payload:
 

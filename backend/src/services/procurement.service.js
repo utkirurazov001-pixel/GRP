@@ -67,16 +67,17 @@ async function update(user, id, body) {
     .update({ ...data, updated_at: db.fn.now() }).returning('*');
 
   // Rule R4: tender cancelled 2+ times → automatic medium alert (once)
+  const { createAlert } = require('./alert.service');
   let alert = null;
   if (row.cancel_count >= 2 && existing.cancel_count < 2) {
-    [alert] = await db('alerts').insert({
-      gerpi_id: row.gerpi_id,
+    alert = await createAlert({
+      gerpiId: row.gerpi_id,
       severity: 'orta',
       type: 'xarid_muammo',
+      ruleCode: 'R4',
       title: `Tender ${row.cancel_count} marta bekor qilingan`,
       description: `"${row.title}" tenderi takroran bekor qilindi — xarid jarayonini ko'rib chiqish zarur.`,
-      rule_code: 'R4',
-    }).returning('*');
+    });
   }
   return { row, old: existing, alert };
 }

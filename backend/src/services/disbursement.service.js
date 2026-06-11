@@ -151,18 +151,24 @@ async function approve(user, id) {
   }).returning('*');
 
   // Rule R1: approved report 15%+ behind schedule → automatic high alert
+  const { createAlert } = require('./alert.service');
   const gap = +(Number(row.planned_pct) - Number(row.disbursed_pct)).toFixed(1);
   let alert = null;
   if (gap > 15) {
-    [alert] = await db('alerts').insert({
-      gerpi_id: org.id,
+    alert = await createAlert({
+      gerpiId: org.id,
       severity: 'yuqori',
       type: 'ozlashtirish_past',
+      ruleCode: 'R1',
       title: `O'zlashtirish ${Number(row.disbursed_pct).toFixed(0)}% — grafikdan ${gap.toFixed(0)}% ortda`,
       description: `${row.year}-Q${row.quarter} tasdiqlangan hisobot bo'yicha reja-fakt farqi ${gap}%`,
-      rule_code: 'R1',
-    }).returning('*');
+    });
   }
+  // Re-score the organization right away so the registry reflects reality
+  setImmediate(() => {
+    require('../jobs/alert-engine').runForOrg(org.id)
+      .catch((err) => console.error('[alert-engine] re-score failed:', err.message));
+  });
   return { row, old: report, alert };
 }
 

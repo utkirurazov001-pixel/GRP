@@ -128,7 +128,60 @@
     document.getElementById('bottom5').innerHTML =
       d.bottom5.map((r, i) => rankItem(r, i, true)).join('') ||
       '<div class="empty-state">Ma\'lumot yo\'q</div>';
+
+    loadRiskMatrix();
   }
+
+  const RISK_COLOR = {
+    past: 'rgba(46,158,91,0.65)', orta: 'rgba(224,161,6,0.7)', yuqori: 'rgba(214,69,69,0.75)',
+  };
+
+  async function loadRiskMatrix() {
+    let rows;
+    try {
+      rows = (await G.api('/api/analytics/risk-matrix')).data;
+    } catch { return; }
+    const maxBudget = Math.max(...rows.map((r) => r.budget_usd), 1);
+    new Chart(document.getElementById('chart-risk'), {
+      type: 'bubble',
+      data: {
+        datasets: rows.map((r) => ({
+          label: r.name,
+          data: [{
+            x: r.months_to_close,
+            y: r.gap,
+            r: 6 + 16 * Math.sqrt(r.budget_usd / maxBudget),
+          }],
+          backgroundColor: RISK_COLOR[r.risk_level] || RISK_COLOR.past,
+          borderColor: 'rgba(14,42,71,0.25)',
+        })),
+      },
+      options: {
+        maintainAspectRatio: false,
+        scales: {
+          x: { title: { display: true, text: 'Yopilishgacha qolgan oy' }, beginAtZero: true },
+          y: { title: { display: true, text: 'Reja-fakt farqi, %' } },
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (c) => {
+                const r = rows[c.datasetIndex];
+                return ' ' + r.name + ' — farq ' + r.gap + '%, ' +
+                  r.months_to_close + ' oy, ' + G.fmtMoney(r.budget_usd);
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  // Live alerts → toast
+  G.connectSocket((alert) => {
+    G.toast('Yangi ogohlantirish: ' + alert.title, 'error');
+  });
 
   load();
 })();

@@ -298,6 +298,21 @@ exports.seed = async function (knex) {
     { gerpi_id: orgRows[7].id, title: '100 MVt quyosh stansiyasi EPC', method: 'QCBS', estimated_usd: 85_000_000, status: 'baholashda', announced_date: '2026-01-15' },
   ]);
 
+  // Annual work plans for 2026 — uploaded for everyone except the Raqamli
+  // iqtisodiyot GERPI, so rule R6 fires exactly once in the demo.
+  await knex('documents').insert(orgRows
+    .filter((g) => g.latn !== 'Raqamli iqtisodiyotni rivojlantirish GERPI')
+    .map((g) => ({
+      gerpi_id: g.id,
+      type: 'yillik_reja',
+      title: '2026-yillik ish rejasi',
+      file_path: null,
+      mime_type: 'application/pdf',
+      period_year: 2026,
+      uploaded_by: userByRole.gerpi_staff,
+      due_date: '2026-02-01',
+    })));
+
   // Alerts — 8, three severities (auto rules engine arrives in phase 3)
   const A = (g, severity, type, title, description, rule) => ({
     gerpi_id: g.id, severity, type, title, description, rule_code: rule, is_resolved: false,

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ogohlantirishlar — GERPI Monitoring</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <div class="layout">
+    <div class="main">
+      <div class="content">
+        <div class="page-title">Ogohlantirishlar</div>
+        <div class="page-sub">Avtomatik qoidalar (R1–R7) va qo'lda kiritilgan signallar — jonli yangilanadi</div>
+
+        <div class="toolbar">
+          <select id="f-severity">
+            <option value="">Barcha darajalar</option>
+            <option value="yuqori">Yuqori</option>
+            <option value="orta">O'rta</option>
+            <option value="past">Past</option>
+          </select>
+          <select id="f-type">
+            <option value="">Barcha turlar</option>
+            <option value="ozlashtirish_past">O'zlashtirish past</option>
+            <option value="hisobot_kechikkan">Hisobot kechikkan</option>
+            <option value="muddat_yaqin">Muddat yaqin</option>
+            <option value="xarid_muammo">Xarid muammosi</option>
+            <option value="audit_nomuvofiqlik">Audit nomuvofiqligi</option>
+            <option value="hujjat_kutilmoqda">Hujjat kutilmoqda</option>
+            <option value="eslatma">Eslatma</option>
+          </select>
+          <select id="f-status">
+            <option value="open" selected>Ochiq</option>
+            <option value="resolved">Hal qilingan</option>
+            <option value="">Barchasi</option>
+          </select>
+          <select id="f-gerpi"><option value="">Barcha GERPI</option></select>
+        </div>
+
+        <div class="card" style="padding:6px 20px" id="alerts-list">
+          <div class="skeleton" style="height:160px;margin:14px 0"></div>
+        </div>
+        <div class="card" style="margin-top:12px">
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Resolve modal -->
+  <div class="modal-backdrop" id="resolve-backdrop">
+    <div class="modal" style="max-width:480px">
+      <div class="modal-head">
+        <h2>Ogohlantirishni yopish</h2>
+        <button class="modal-close" data-close="resolve-backdrop">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-field full">
+          <label for="resolve-note">Hal qilish izohi *</label>
+          <textarea id="resolve-note" rows="4" placeholder="Qanday choralar ko'rildi…"></textarea>
+        </div>
+        <div class="form-error" id="resolve-error"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-secondary" data-close="resolve-backdrop">Bekor qilish</button>
+        <button class="btn btn-primary" id="btn-resolve-confirm">Hal qilindi</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/assets/app.js"></script>
+  <script src="/assets/alerts.js"></script>
+</body>
+</html>

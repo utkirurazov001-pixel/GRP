@@ -122,8 +122,17 @@
   const NAV = [
     { href: '/dashboard.html', icon: '▦', label: 'Boshqaruv paneli' },
     { href: '/orgs.html', icon: '☰', label: 'GERPI reestri' },
+    { href: '/alerts.html', icon: '⚠', label: 'Ogohlantirishlar' },
     { href: '/data-entry.html', icon: '✎', label: "Ma'lumot kiritish", roles: ['gerpi_staff'] },
   ];
+
+  // Live alert stream (requires /socket.io/socket.io.js on the page).
+  function connectSocket(onAlert) {
+    if (typeof io === 'undefined' || !Session.accessToken) return null;
+    const socket = io({ auth: { token: Session.accessToken } });
+    if (onAlert) socket.on('alert:new', onAlert);
+    return socket;
+  }
 
   function renderLayout(activeHref, breadcrumb) {
     const user = Session.user || {};
@@ -184,6 +193,6 @@
   window.GERPI = {
     api, Session, requireAuth, toast, esc,
     fmtMoney, fmtNum, statusPill, riskPill, progressBar,
-    STATUS_LABELS, RISK_LABELS, ROLE_LABELS, PALETTE, renderLayout,
+    STATUS_LABELS, RISK_LABELS, ROLE_LABELS, PALETTE, renderLayout, connectSocket,
   };
 })();

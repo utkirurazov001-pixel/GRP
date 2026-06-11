@@ -114,4 +114,48 @@ async function dashboard(user) {
   };
 }
 
-module.exports = { dashboard };
+// Risk matrix: X = months to closing, Y = plan-vs-actual gap, size = budget.
+async function riskMatrix(user) {
+  const orgs = await scopedOrgs(user)
+    .whereNotIn('g.status', ['yakunlangan', 'toxtatilgan'])
+    .select('g.id', 'g.name_uz_latn', 'g.budget_total_usd', 'g.closing_date', 'g.risk_level', 'g.status');
+  const orgIds = orgs.map((o) => o.id);
+  if (!orgIds.length) return [];
+
+  const latest = await db('disbursement_reports as r')
+    .distinctOn('r.gerpi_id')
+    .whereIn('r.gerpi_id', orgIds)
+    .whereNot('r.status', 'qoralama')
+    .whereNull('r.deleted_at')
+    .orderBy([{ column: 'r.gerpi_id' }, { column: 'r.year', order: 'desc' }, { column: 'r.quarter', order: 'desc' }])
+    .select('r.gerpi_id', 'r.disbursed_pct', 'r.planned_pct');
+  const byOrg = Object.fromEntries(latest.map((r) => [r.gerpi_id, r]));
+
+  const now = Date.now();
+  return orgs.map((o) => {
+    const r = byOrg[o.id];
+    const monthsToClose = o.closing_date
+      ? Math.max(0, +((new Date(o.closing_date) - now) / (30 * 24 * 3600 * 1000)).toFixed(1))
+      : null;
+    return {
+      id: o.id,
+      name: o.name_uz_latn,
+      months_to_close: monthsToClose,
+      gap: r ? +(Number(r.planned_pct) - Number(r.disbursed_pct)).toFixed(1) : 0,
+      disbursed_pct: r ? Number(r.disbursed_pct) : 0,
+      budget_usd: Number(o.budget_total_usd),
+      risk_level: o.risk_level,
+    };
+  }).filter((o) => o.months_to_close != null);
+}
+
+// Historical portfolio trend from kpi_snapshots.
+async function trends() {
+  const rows = await db('kpi_snapshots')
+    .orderBy([{ column: 'year' }, { column: 'quarter' }])
+    .select('year', 'quarter', 'total_gerpi', 'active_gerpi', 'total_budget_usd',
+      'total_disbursed_usd', 'avg_disbursement_pct', 'high_risk_count');
+  return rows.map((r) => ({ ...r, label: `${r.year}-Q${r.quarter}` }));
+}
+
+module.exports = { dashboard, riskMatrix, trends };

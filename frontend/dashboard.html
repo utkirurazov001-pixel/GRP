@@ -42,19 +42,22 @@
           </div>
         </div>
 
-        <div class="chart-grid-2">
+        <div class="chart-grid">
           <div class="card chart-box">
-            <h3>Eng yaxshi 5 GERPI (reja-fakt farqi)</h3>
-            <ul class="rank-list" id="top5"></ul>
+            <h3>Risk matritsasi — X: yopilishgacha oy, Y: reja-fakt farqi, o'lcham: byudjet</h3>
+            <div class="chart-wrap"><canvas id="chart-risk"></canvas></div>
           </div>
           <div class="card chart-box">
-            <h3>Eng muammoli 5 GERPI (reja-fakt farqi)</h3>
+            <h3>Eng yaxshi / muammoli 5 GERPI</h3>
+            <ul class="rank-list" id="top5"></ul>
+            <div style="border-top:2px solid var(--border);margin:8px 0"></div>
             <ul class="rank-list" id="bottom5"></ul>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <script src="/socket.io/socket.io.js"></script>
   <script src="/assets/vendor/chart.umd.min.js"></script>
   <script src="/assets/app.js"></script>
   <script src="/assets/dashboard.js"></script>

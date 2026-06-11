@@ -4,5 +4,7 @@ const { authenticate } = require('../middleware/auth');
 
 router.use(authenticate);
 router.get('/dashboard', ctrl.dashboard);
+router.get('/risk-matrix', ctrl.riskMatrix);
+router.get('/trends', ctrl.trends);
 
 module.exports = router;
